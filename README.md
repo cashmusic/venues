@@ -57,7 +57,7 @@ Venue data:
 	"url":"http://www.theecho.com/",
 	"phone":"(213) 413-8200",
 	"email":"",
-	"capacity:350,
+	"capacity":350,
 	"creation_date":1427481092,
 	"modification_date":1427483107
 }
