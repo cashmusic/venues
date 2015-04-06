@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Search: {{ searchword }}</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="autocomplete.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	
+	<body>
+		
+	<h1>Search: {{ searchword }}</h1>
+	
+	<ul>
+		<h2>Search for: {{ name }}</h2>
+			
+<!-- 			how do i iterate through this list using mustache?     -->
+			
+			
+			<?php
+				foreach($search as $entry) {
+					echo "<li>" . '<a href="venues/' . "{{ id }}" . '.html">' . "{{ name }}" . "</a></li>";
+				}
+			?>
+	</ul>
+	
+	
+	</body>
+</html>
