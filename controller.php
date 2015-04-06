@@ -100,7 +100,7 @@ if ($requested_action) {
 		
 		$name = $_GET['q'];
 		
-		$searchword = $_GET['q'];
+		
 	
 		if(isset($name)) {
 		
@@ -137,7 +137,7 @@ if ($requested_action) {
 				
 					$template = $mustache->loadTemplate('search');
 				
-					echo $template->render(array('searchword' => $searchword,
+					echo $template->render(array('searchword' => $name,
 												'name' => $venue['name'],
 												'id' => $venue['id']));
 				
@@ -164,15 +164,14 @@ if ($requested_action) {
 	}
 
 	$venues = $results->fetchAll(PDO::FETCH_ASSOC);
-// 	
+ 	
 	
 // HTML CODE FOR MAIN PAGE
-
 // Load mustache template -->
 	
 		$template = $mustache->loadTemplate('mainpage');
-		echo $template->render(array('whathewants' => 'taters'));
-		
+	
+		echo $template->render($venues);
 	
 }
 
