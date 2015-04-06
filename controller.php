@@ -137,9 +137,11 @@ if ($requested_action) {
 				
 					$template = $mustache->loadTemplate('search');
 				
-					echo $template->render(array('searchword' => $name,
-												'name' => $venue['name'],
-												'id' => $venue['id']));
+					
+												
+					echo $template->render(array(
+     											"results" => $search
+					));
 				
 				}
 				}
@@ -171,7 +173,8 @@ if ($requested_action) {
 	
 		$template = $mustache->loadTemplate('mainpage');
 	
-		echo $template->render($venues);
+		echo $template->render(array("results" => $venues
+					));
 	
 }
 

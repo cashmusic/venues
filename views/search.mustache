@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>Search: {{ searchword }}</title>
+		<title>Search: {{ name }}</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" type="text/javascript"></script>
 		<script src="autocomplete.js"></script>
@@ -11,16 +11,21 @@
 	
 	<body>
 		
-	<h1>Search: {{ searchword }}</h1>
+	<h1>Search for: {{ results.name }}</h1>
 	
 	<ul>
-		<h2>Search for: {{ name }}</h2>
+		
 			
 			
 <!-- 			none of the below code is working  -->
 			
 			
-			{{#name}}<h1>Name: {{name}}</h1>{{/name}}
+			{{#results}}
+     			{{#name}}{{#id}}<p><a href="venues/{{id}}.html">{{/id}}{{ name }}</p>{{/name}}
+			{{/results}}
+			{{^results}}
+     			<p>No results.</p>
+			{{/results}}
 			
 			
 <!-- 			how do i iterate through this list using mustache?     -->
