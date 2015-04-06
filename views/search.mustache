@@ -16,14 +16,23 @@
 	<ul>
 		<h2>Search for: {{ name }}</h2>
 			
+			
+<!-- 			none of the below code is working  -->
+			
+			
+			{{#name}}<h1>Name: {{name}}</h1>{{/name}}
+			
+			
 <!-- 			how do i iterate through this list using mustache?     -->
 			
 			
-			<?php
+			<!-- 
+<?php
 				foreach($search as $entry) {
 					echo "<li>" . '<a href="venues/' . "{{ id }}" . '.html">' . "{{ name }}" . "</a></li>";
 				}
 			?>
+ -->
 	</ul>
 	
 	

@@ -2,18 +2,18 @@
 
 <html>
 	<head>
-		<title>{{ name }}</title>
+		<title>Bobo Database</title>
 	</head>
 	
 	<body>
 		
-	<ul>
-			<?php
-			foreach($venues as $venue) {
-			echo "<li>" . '<a href="venues/' . $venue["id"] . '.html">' . $venue["name"] . "</a></li>";
-			}
-			?>
-		</ul>
+	
+			<ul>
+           {{ #name }}
+           <li>{{ name }}</li>
+           {{ /name }}
+  			</ul>
+		
 		<BR><BR>
 		
 		<p>Search the Database: 
