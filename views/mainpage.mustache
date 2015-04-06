@@ -7,16 +7,19 @@
 	
 	<body>
 		
-	
+			<h1>Venues</h1>
 			<ul>
-           {{ #name }}
-           <li>{{ name }}</li>
-           {{ /name }}
-  			</ul>
+				{{#results}}
+					<li>{{#name}}{{#id}}<p><a href="venues/{{id}}.html">{{/id}}{{ name }}</a></p>{{/name}}</li>
+				{{/results}}
+				{{^results}}
+					<p>No results.</p>
+				{{/results}}
+			</ul>
 		
 		<BR><BR>
 		
-		<p>Search the Database: 
+		<p>Search the Database: </p>
 		<form method="get" action="/venues.html">
 			<input type="text" name="q" value="" placeholder="Venue Name..." id="keyword">
 			<ul id="venue_list_id"></ul>
