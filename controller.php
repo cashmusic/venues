@@ -5,6 +5,15 @@ $output_format = 'json';
 //$requested_action = false;
 
 
+//set up Mustache
+require_once('lib/mustache/Autoloader.php');
+Mustache_Autoloader::register();
+$mustache = new Mustache_Engine(array(
+		'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/views') 
+));
+
+
+
 // look for '.html' and set output format if found
 
 if (strpos($route,'.html') !== false) {
@@ -159,7 +168,7 @@ if ($requested_action) {
 	}
 } else {
 
-	// Index page! gets the db, makes an array with all venue info
+	//Index page! gets the db, makes an array with all venue info
 	
 	require_once('database.php');
 	
@@ -175,8 +184,7 @@ if ($requested_action) {
 	}
 
 	$venues = $results->fetchAll(PDO::FETCH_ASSOC);
-	
-	
+// 	
 	
 // HTML code for basic index page, list of venues in db, and search form
 ?>
@@ -190,6 +198,15 @@ if ($requested_action) {
  		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
+	
+<!-- 	Load mustache template -->
+	<?php 
+		$template = $mustache->loadTemplate('billybob');
+		echo $template->render(array('whathewants' => 'taters'));
+		
+	?>
+	
+<!-- Load list of venues	 -->
 		<ul>
 			<?php
 			foreach($venues as $venue) {
@@ -198,6 +215,8 @@ if ($requested_action) {
 			?>
 		</ul>
 		<BR><BR>
+		
+<!-- Load search feature -->
 		<p>Search the Database: 
 		<form method="get" action="/venues.html">
 			<input type="text" name="q" value="" placeholder="Venue Name..." id="keyword">
@@ -205,8 +224,11 @@ if ($requested_action) {
 			<BR><BR>
 			<input type="submit" value="search">
 		</form>
+
+		
 	</body>
 </html>
+
 
 	
 <?php 
