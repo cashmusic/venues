@@ -75,17 +75,17 @@ if ($requested_action) {
 				
 			} else if ($output_format == 'html') {
 			
-				// html output if its venues/id.html
-				if (isset($venue['name'])) {
-					echo "<h1>" . $venue['name'] . "</h1>";
-				}
-				if (isset($venue['city'])) {
-					echo "<p>" . $venue['city'] . "</p>";
-				}
-				if (isset($venue['phone'])) {
-					echo "<p>" . $venue['phone'] . "</p>";
-				}
+			
+			
+			// <!-- 	Load mustache template -->
+			
+				$template = $mustache->loadTemplate('venue');
+				
+				
+					echo $template->render($venue,'venue');
+					
 			}
+			
 		} else {
 			// stuff didn't work! for now just echo out an 'oh shit note'
 			echo "404 not found!";
@@ -100,6 +100,7 @@ if ($requested_action) {
 		
 		$name = $_GET['q'];
 		
+		$searchword = $_GET['q'];
 	
 		if(isset($name)) {
 		
@@ -130,41 +131,20 @@ if ($requested_action) {
 					
 				} else if ($output_format == 'html') {
 				
-							// html code for the search page (venues.html?p=search)
-							?>
-							<html>
-							<head>
-							<meta charset="utf-8">
-							<title>Search Venue Database</title>
-							<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-							<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" type="text/javascript"></script>
-							<script src="autocomplete.js"></script>
-							<link rel="stylesheet" href="style.css">
-						</head>
-						<body>
-							<ul>
-								<h2>Search for: <?php echo $name ?></h2>
-								<?php
-								foreach($search as $entry) {
-								echo "<li>" . '<a href="venues/' . $entry["id"] . '.html">' . $entry["name"] . "</a></li>";
-								}
-								?>
-							</ul>
-		
-		<?php
+				// <!-- 	Load mustache template -->
+				
+				
+				
+					$template = $mustache->loadTemplate('search');
+				
+					echo $template->render(array('searchword' => $searchword,
+												'name' => $venue['name'],
+												'id' => $venue['id']));
+				
 				}
 				}
 			}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 	}
 } else {
 
@@ -186,53 +166,13 @@ if ($requested_action) {
 	$venues = $results->fetchAll(PDO::FETCH_ASSOC);
 // 	
 	
-// HTML code for basic index page, list of venues in db, and search form
-?>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Venue Database</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" type="text/javascript"></script>
- 		<script src="autocomplete.js"></script>
- 		<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
+// HTML CODE FOR MAIN PAGE
+
+// Load mustache template -->
 	
-<!-- 	Load mustache template -->
-	<?php 
-		$template = $mustache->loadTemplate('billybob');
+		$template = $mustache->loadTemplate('mainpage');
 		echo $template->render(array('whathewants' => 'taters'));
 		
-	?>
-	
-<!-- Load list of venues	 -->
-		<ul>
-			<?php
-			foreach($venues as $venue) {
-			echo "<li>" . '<a href="venues/' . $venue["id"] . '.html">' . $venue["name"] . "</a></li>";
-			}
-			?>
-		</ul>
-		<BR><BR>
-		
-<!-- Load search feature -->
-		<p>Search the Database: 
-		<form method="get" action="/venues.html">
-			<input type="text" name="q" value="" placeholder="Venue Name..." id="keyword">
-			<ul id="venue_list_id"></ul>
-			<BR><BR>
-			<input type="submit" value="search">
-		</form>
-
-		
-	</body>
-</html>
-
-
-	
-<?php 
 	
 }
 
-?>

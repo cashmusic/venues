@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>{{ name }}</title>
+	</head>
+	
+	<body>
+		
+	<ul>
+			<?php
+			foreach($venues as $venue) {
+			echo "<li>" . '<a href="venues/' . $venue["id"] . '.html">' . $venue["name"] . "</a></li>";
+			}
+			?>
+		</ul>
+		<BR><BR>
+		
+		<p>Search the Database: 
+		<form method="get" action="/venues.html">
+			<input type="text" name="q" value="" placeholder="Venue Name..." id="keyword">
+			<ul id="venue_list_id"></ul>
+			<BR><BR>
+			<input type="submit" value="search">
+		</form>
+
+	
+	
+	</body>
+</html>
