@@ -10,7 +10,7 @@
 // set basic variables
 $route = $_REQUEST['p'];
 $output_format = 'json';
-$requested_action = false;
+$requested_action = 'index';
 
 // look for '.html' and set output format to 'html' if found
 if (strpos($route,'.html') !== false) {
@@ -29,18 +29,22 @@ if (strpos($route,'.html') !== false) {
 // explode route by '/' and determine what's being asked for
 $exploded_route = explode("/",$route);
 
-if (count($exploded_route) > 1 && $exploded_route[2] == 'edit.php') {
-   $requested_action = 'edited';
-} else if (count($exploded_route) > 1 && $exploded_route[1] == 'edit') {
-   $requested_action = 'edit';
-   $UUID = $exploded_route[2];
-} else if (count($exploded_route) == 1 && $exploded_route[0] == 'venues') {
-   $requested_action = 'search';
-} else if (count($exploded_route) > 1 && $exploded_route[0] == 'venues') {
-   $requested_action = 'details';
-   $UUID = intval($exploded_route[1]);
-} else {
-   $requested_action = 'index';
+if (isset($exploded_route[1])) {
+   if (isset($exploded_route[2])) {
+      if (count($exploded_route) > 1 && $exploded_route[2] == 'edit.php') {
+         $requested_action = 'edited';
+      } else if (count($exploded_route) > 1 && $exploded_route[1] == 'edit') {
+         $requested_action = 'edit';
+         $UUID = $exploded_route[2];
+      }
+   } else {
+      if (count($exploded_route) == 1 && $exploded_route[0] == 'venues') {
+         $requested_action = 'search';
+      } else if (count($exploded_route) > 1 && $exploded_route[0] == 'venues') {
+         $requested_action = 'details';
+         $UUID = intval($exploded_route[1]);
+      }
+   }
 }
 
 
