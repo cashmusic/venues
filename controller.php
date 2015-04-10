@@ -25,13 +25,23 @@ if (strpos($route,'.html') !== false) {
 // explode route by '/' and determine what's being asked for
 $exploded_route = explode("/",$route);
 
-if (count($exploded_route) == 1 && $exploded_route[0] == 'venues') {
+if (count($exploded_route) > 1 && $exploded_route[2] == 'edit.php') {
+	$requested_action = 'edited';
+	
+} else if (count($exploded_route) > 1 && $exploded_route[1] == 'edit') {
+	$requested_action = 'edit';
+
+} else if (count($exploded_route) == 1 && $exploded_route[0] == 'venues') {
 	$requested_action = 'search';
 	
 } else if (count($exploded_route) > 1 && $exploded_route[0] == 'venues') {
 	$requested_action = 'details';
 	
 } 
+	
+
+
+
 
 
 // handle headers
@@ -48,11 +58,105 @@ function setHeaders($output_format) {
 if ($requested_action) {
 	require_once('database.php');
 	
+	
+	
+	if ($requested_action == 'edited') {
+			echo "form sent!<br>";
+			
+			$venuename = $_POST['venuename'];
+			
+			$address1 = $_POST['address1'];
+			$address2 = $_POST['address2'];
+			$city = $_POST['city'];
+			$region = $_POST['region'];
+			$country = $_POST['country'];
+			$postalcode = $_POST['postalcode'];
+			$url = $_POST['url'];
+			$phone = $_POST['phone'];
+			$type = $_POST['type'];
+			$UUID = $_POST['UUID'];
+			
+		try {
+			
+			$sql = "UPDATE venues SET name = ?, 
+										address1 = ?,
+										address2 = ?,
+										city = ?,
+										region = ?,
+										country = ?,
+										postalcode = ?,
+										url = ?,
+										phone = ?,
+										type = ?
+									
+									WHERE UUID = ?";
+									
+			$q = $db->prepare($sql);
+			$q->execute(array($venuename, 
+								$address1, 
+								$address2, 
+								$city, 
+								$region, 
+								$country,
+								$postalcode,
+								$url,
+								$phone,
+								$type,
+								$UUID));
+							
+			echo "woodegevv!";
+			
+			
+			
+			
 
-	if ($requested_action == 'details') {
+	
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			exit;
+		
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	} else if ($requested_action == 'edit') {
+		
+		setHeaders($output_format);
+		
+		$UUID = $exploded_route[2];
+		
+		
+		try {
+			$venuearray = $db->prepare('SELECT * FROM venues WHERE UUID = ?');
+			$venuearray->bindParam(1, $UUID);
+			$venuearray->execute();
+	
+		} catch(Exception $e) {
+			echo $e->getMessage();
+			exit;
+		
+		}
+
+		$venue = $venuearray->fetch(PDO::FETCH_ASSOC);
+		$template = $mustache->loadTemplate('edit');
+		echo $template->render($venue);
+		
+		
+		
+		
+		
+		
+	} else if ($requested_action == 'details') {
 		setHeaders($output_format);
 		$id = intval($exploded_route[1]);
 		// make our query first
+		
 		try {
 			$venuearray = $db->prepare('SELECT * FROM venues WHERE id = ?');
 			$venuearray->bindParam(1, $id);
@@ -96,18 +200,12 @@ if ($requested_action) {
 		// (which is saved as $name), and then the db is searched and returns an array
 		
 		require_once('database.php');
-		
-		
 		$name = $_GET['q'];
 		
-		
-	
 		if(isset($name)) {
 		
 			try {
-				
 				$searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE '%" . $name . "%'");
-			
 				$searcharray->execute();
 			
 			} catch(Exception $e) {
@@ -118,29 +216,20 @@ if ($requested_action) {
 		
 			$search = $searcharray->fetchALL(PDO::FETCH_ASSOC);
 			
-			
-			
-			
 			if ($search) {
 			
 				if ($output_format == 'json') {
-					
 					// json output for search page (venues?p=search)
 					echo json_encode($search);
-					
 					
 				} else if ($output_format == 'html') {
 				
 				// <!-- 	Load mustache template -->
 				
-				
-				
 					$template = $mustache->loadTemplate('search');
-				
-					
-												
 					echo $template->render(array(
-     											"results" => $search
+     											"results" => $search,
+     											"name" => $name
 					));
 				
 				}
