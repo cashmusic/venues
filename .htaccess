@@ -16,4 +16,3 @@ RewriteCond %{REQUEST_FILENAME} !-s
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{QUERY_STRING} (.+)
 RewriteRule ([^\?]+) controller.php?p=$1&%1 [L]
-

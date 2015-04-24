@@ -11,7 +11,7 @@
 	
 	<body>
 		
-	<h1>Search for: {{ name }}</h1>
+	<h1>Search for: {{ results.name }}</h1>
 	
 	<ul>
 		
@@ -21,7 +21,7 @@
 			
 			
 			{{#results}}
-     			{{#name}}{{#id}}<p><a href="venues/{{id}}.html">{{/id}}{{ name }}</p>{{/name}}
+     			{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}</p>{{/name}}
 			{{/results}}
 			{{^results}}
      			<p>No results.</p>
