@@ -107,6 +107,8 @@ if ($requested_action == 'edited') {
 		$region = $_POST['region'];
 		$country = $_POST['country'];
 		$postalcode = $_POST['postalcode'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
 		$url = $_POST['url'];
 		$phone = $_POST['phone'];
 		$type = $_POST['type'];
@@ -114,10 +116,10 @@ if ($requested_action == 'edited') {
 			
 		try {
 			
-			$sql = "UPDATE venues SET name = ?, address1 = ?,address2 = ?,city = ?,region = ?,country = ?,postalcode = ?,url = ?,phone = ?,type = ? WHERE UUID = ?";
+			$sql = "UPDATE venues SET name = ?, address1 = ?,address2 = ?,city = ?,region = ?,country = ?,postalcode = ?,latitude = ?, longitude = ?, url = ?,phone = ?,type = ? WHERE UUID = ?";
 									
 			$q = $db->prepare($sql);
-			$q->execute(array($venuename,$address1,$address2,$city,$region,$country,$postalcode,$url,$phone,$type,$UUID));
+			$q->execute(array($venuename,$address1,$address2,$city,$region,$country,$postalcode,$latitude, $longitude, $url,$phone,$type,$UUID));
 							
 			
 
