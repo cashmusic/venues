@@ -11,17 +11,14 @@
 	
 	<body>
 		
-	<h1>Search for: {{ results.name }}</h1>
+	<h1>Search for: {{name}}</h1>
 	
 	<ul>
 		
 			
 			
-<!-- 			none of the below code is working  -->
-			
-			
 			{{#results}}
-     			{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}
+     			<li>{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
 			{{/results}}
 			{{^results}}
      			<p>No results.</p>
@@ -30,14 +27,6 @@
 			
 <!-- 			how do i iterate through this list using mustache?     -->
 			
-			
-			<!-- 
-<?php
-				foreach($search as $entry) {
-					echo "<li>" . '<a href="venues/' . "{{ id }}" . '.html">' . "{{ name }}" . "</a></li>";
-				}
-			?>
- -->
 	</ul>
 	
 	
