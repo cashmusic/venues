@@ -1,9 +1,7 @@
 RewriteEngine On 
+RewriteBase /
 Options +FollowSymlinks 
-Options -Indexes 
-
-
-
+Options -Indexes
 
 # no GET querystring
 RewriteCond %{REQUEST_FILENAME} !-s
