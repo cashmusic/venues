@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-
 <html>
 	<head>
-		<title>Bobo Database</title>
+		<title>Cash Database</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/app.css">
+		<link href="{{www_path}}/ui/default/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
 	</head>
 	
 	<body>
-			
 		<p>Search the Database: </p>
-		<form method="get" action="/venues.html">
-			<input type="text" name="q" value="" placeholder="Venue Name..." id="keyword">
+		<section id="search">
+		<form id="search_submission" method="get" action="/venues.html">
+			<input type="text" name="q" value="" placeholder="Is it me your looking for?" id="keyword">
 			<ul id="venue_list_id"></ul>
-			<BR><BR>
-			<input type="submit" value="search">
+			<!-- input type="submit" value="search"  -->
 		</form>
-
-		<div class="results">
-			<ul>
+		</section>
+		<section id="results">
+			<ol>
 			{{#results}}
-     			<li>{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
+     			<article class="result">
+     				<li>
+     			{{#name}}{{#UUID}}<a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}{{/name}}
+
+     				{{#city}}<p>City: {{city}}</p>{{/city}}
+     				{{#phone}}<p>Phone: {{phone}}</p>{{/phone}}
+     				{{#url}}<a href="http://{{url}}" target="_blank">{{url}}</a>{{/url}}
+     				</li>
+     			</article>
 			{{/results}}
+			</ol>
 			{{^results}}
-     			<p>No results.</p>
+     			<article>No results</article>
 			{{/results}}
-			</ul>
-		</div><!--results-->
+			
+		</section><!--results-->
 	</body>
 </html>
