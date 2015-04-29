@@ -2,37 +2,17 @@
 <html>
 	<head>
 		<title>Cash Database</title>
-		<link rel="stylesheet" type="text/css" href="assets/css/app.css">
-		<link href="{{www_path}}/ui/default/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/jquery.min.js" type="text/javascript"></script>
+		<script src="assets/js/main.js" type="text/javascript"></script>
+		<link href="assets/css/app.css" rel="stylesheet" type="text/css" />
+		<link href="assets/css/iconfont.css" rel="stylesheet" type="text/css" />
 	</head>
 	
 	<body>
-		<p>Search the Database: </p>
 		<section id="search">
-		<form id="search_submission" method="get" action="/venues.html">
+		<form id="search_submission">
 			<input type="text" name="q" value="" placeholder="Is it me your looking for?" id="keyword">
-			<ul id="venue_list_id"></ul>
-			<!-- input type="submit" value="search"  -->
 		</form>
 		</section>
-		<section id="results">
-			<ol>
-			{{#results}}
-     			<article class="result">
-     				<li>
-     			{{#name}}{{#UUID}}<a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}{{/name}}
-
-     				{{#city}}<p>City: {{city}}</p>{{/city}}
-     				{{#phone}}<p>Phone: {{phone}}</p>{{/phone}}
-     				{{#url}}<a href="http://{{url}}" target="_blank">{{url}}</a>{{/url}}
-     				</li>
-     			</article>
-			{{/results}}
-			</ol>
-			{{^results}}
-     			<article>No results</article>
-			{{/results}}
-			
-		</section><!--results-->
 	</body>
 </html>
