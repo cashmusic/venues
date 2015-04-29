@@ -1,38 +1,33 @@
 $(document).ready(function() {
 
 console.log('loaded...');
-  GetURLParameter();
-
-
-/* Input State Change */
-$( "#keyword" ).change(function() {
-
-searchit();
-    
-}); //Input state Change
+GetURLParameter();
 
 /* Search Submit */
 $("#search_submission").submit(function(e) {
     e.preventDefault();
+    searchit();
 });
 
 /* Inputting Text */
 $('#keyword').on('input', function() {
     // do something
 		console.log('typing...');
+    searchit();
 		history.pushState({}, '', $(this).val());
-   		return false;
+   	return false;
 });
 
 
 function searchit() {
 // If the field isn't empty do a search
-  if ($("#keyword").val() != ''){
+  if ($("#keyword").val() != ""){
 
     console.log('submitted...');
 
     //empty the results 
-    $('.results').empty();
+    //$('.results').empty();
+     $('.results').remove();
 
     //getJSON
     $.getJSON( "/venues?q="+$('#keyword').val(), function( data ) {
@@ -57,6 +52,10 @@ function searchit() {
 
     }); //getJSON
   } // If you submitted something
+  else{
+    $('body').removeClass('display');
+    $('.results').remove();
+  }
 } //searchit();
 
 function GetURLParameter(sParam)
@@ -74,7 +73,6 @@ function GetURLParameter(sParam)
         }
 
     }
-  }
-
+  } //GetURLParameter();
 
 }); // $document

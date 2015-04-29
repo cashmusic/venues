@@ -123,6 +123,8 @@ ul{
 }
 
 .result{
+	opacity: 0;
+	visibility: hidden;
 	background:#eee;
 	border-radius: 3px;
 	margin:0 0 20px 0;
@@ -132,8 +134,22 @@ ul{
 	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
 }
 
+.display .result{
+	opacity: 1;
+	visibility: visible;
+	-webkit-transition: 0.3s  ease-in-out 1s;
+	-moz-transition: 0.3s  ease-in-out 1s;
+	transition: 0.3s ease-in-out 1s;
+}
+
 .display .results .dice{
 	height:100%;
+	padding:10%;
 	background:url(../img/dice.png) no-repeat;
+	background-size: 50%;
+	background-position: 50% 50%;
+    -webkit-transition: 0.3s  ease-in-out 1s;
+	-moz-transition: 0.3s  ease-in-out 1s;
+	transition: 0.3s ease-in-out 1s;
 }
 
