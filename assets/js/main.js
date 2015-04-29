@@ -1,12 +1,16 @@
 $(document).ready(function() {
 
 console.log('loaded...');
-GetURLParameter();
+
+// get the location
+var dirs = window.location.pathname.substring(1);
+
+console.log(dirs);
+searchit();
 
 /* Search Submit */
 $("#search_submission").submit(function(e) {
     e.preventDefault();
-    searchit();
 });
 
 /* Inputting Text */
@@ -21,16 +25,23 @@ $('#keyword').on('input', function() {
 
 function searchit() {
 // If the field isn't empty do a search
-  if ($("#keyword").val() != ""){
+  if ($("#keyword").val() != "" || dirs != "" ){
 
     console.log('submitted...');
 
     //empty the results 
-    //$('.results').empty();
+     $('.results').empty();
      $('.results').remove();
 
-    //getJSON
-    $.getJSON( "/venues?q="+$('#keyword').val(), function( data ) {
+     if ($("#keyword").val() != ""){ 
+      var term = $('#keyword').val(); 
+     } 
+     else if (dirs != "") { 
+      var term = dirs; 
+     }
+
+      //getJSON
+      $.getJSON( "/venues?q="+term, function( data ) {
 
       // If there are results show them
       if (data.results != ""){
@@ -39,7 +50,7 @@ function searchit() {
     
         var ul = $('<section>').addClass('results').appendTo('body');
           $(data.results).each(function(index, item) {
-            ul.append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><span>" + item.UUID + "</span></a></div>")
+            ul.append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><p><span>"+ item.address1 + "</span><span>" + item.address2 + "</span><span>" + item.city + "</span><span>" + item.region +"</p><span> UUID: " + item.UUID + "</span></a></div>")
           });
 
         }else{
@@ -57,22 +68,5 @@ function searchit() {
     $('.results').remove();
   }
 } //searchit();
-
-function GetURLParameter(sParam)
-  {
-    console.log('getting URL');
-    var sPageURL = window.location.search.substring(1);
-     //console.log(sPageURL);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)
-        {
-            return sParameterName[1];
-        }
-
-    }
-  } //GetURLParameter();
 
 }); // $document
