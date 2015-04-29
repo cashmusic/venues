@@ -40,14 +40,29 @@ ul{
 }
 
 #search{
-	position: absolute;
+	background:#eee url('../img/cbgb.jpg');
+	background-width: 100%;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	position: fixed;
 	width:100%;
 	padding:0;
 	top:0;
 	left:0;
 	display:block;
 	height:100%;
-	background:#eee;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+.display #search{
+	width:50%;
 }
 
 #search form{
@@ -68,9 +83,9 @@ ul{
 	border:none;
 	padding:30px;
 	width:100%;
-	-webkit-transition: 0.5s  ease-in-out;
-	-moz-transition: 0.5s  ease-in-out;
-	transition: 0.5s ease-in-out;
+	-webkit-transition: 0.5s background ease-in-out;
+	-moz-transition: 0.5s background ease-in-out;
+	transition: 0.5s background ease-in-out;
 }
 
 #search input:active, #search input:focus{
@@ -81,35 +96,44 @@ ul{
 
 #search input[type="submit"]{
 	padding:30px;
-		display: inline-block;
+	display: inline-block;
 }
 
-#results{
-	display:none;
+.results{
+	position: fixed;
+	top:0;
+	right:0;
+	width:50%;
+	height:100%;
+	background:#ddd;
+	padding:30px;
+	overflow:auto;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
 }
 
-#results article{
-	margin:0 0 1px 0;
-	background:#333;
-	color:#eee;
-	padding:5px;
+.display .results{
+	position: fixed;
+	top:0;
+	right:0;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+.result{
+	background:#eee;
 	border-radius: 3px;
+	margin:0 0 20px 0;
+	padding:20px;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
 }
 
-#results ol li{
-	color:#222;
-}
-
-
-#results article{
-	margin:0 0 1px 0;
-	background:#333;
-	color:#eee;
-	padding:5px;
-	border-radius: 3px;
-}
-
-#results ol li{
-	color:#222;
+.display .results .dice{
+	height:100%;
+	background:url(../img/dice.png) no-repeat;
 }
 
