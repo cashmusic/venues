@@ -1,12 +1,25 @@
 $(document).ready(function() {
 
-console.log('loaded...');
-
-// get the location
 var dirs = window.location.pathname.substring(1);
 
-console.log(dirs);
-searchit();
+if (dirs == "" ){
+console.log('loading...');
+$('body').addClass('loading');
+
+setTimeout(function() {
+  $('body').removeClass('loading');
+  $('body').addClass('loaded');
+  console.log('loaded...');
+  // get the location
+  console.log(dirs);
+  
+  //run search
+  searchit();     
+}, 2500);
+} else {
+   $('body').addClass('loaded');
+  searchit();  
+}
 
 /* Search Submit */
 $("#search_submission").submit(function(e) {
@@ -30,8 +43,7 @@ function searchit() {
     console.log('submitted...');
 
     //empty the results 
-     $('.results').empty();
-     $('.results').remove();
+     $('.results').empty().remove();
 
      if ($("#keyword").val() != ""){ 
       var term = $('#keyword').val(); 
@@ -50,16 +62,18 @@ function searchit() {
     
         var ul = $('<section>').addClass('results').appendTo('body');
           $(data.results).each(function(index, item) {
-            ul.append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><p><span>"+ item.address1 + "</span><span>" + item.address2 + "</span><span>" + item.city + "</span><span>" + item.region +"</p><span> UUID: " + item.UUID + "</span></a></div>")
+            ul.append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><p><span>"+ item.address1 + "</span><span>" + item.address2 + "</span><span>" + item.city + "</span><span>" + item.region + "</span><span>" + item.postalcode + "</span><span>" + item.country + "</span><span>" + item.url + "</span></p><p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>")
           });
 
         }else{
           console.log('no joy');
-         $('<section>').addClass('results dice').appendTo('body').html("<div class='dice'><h1>No dice :(</h1></div><!--dice-->");
+         $('<section>').addClass('results dice').appendTo('body').html("<div class='dice'><h1>Sorry, No dice</h1></div><!--dice-->");
         }
 
-    //show results area 
-    $('body').addClass('display');
+      if (!$('body').hasClass('display')){
+      //show results area 
+      $('body').addClass('display');
+      }
 
     }); //getJSON
   } // If you submitted something
