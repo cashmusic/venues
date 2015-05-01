@@ -2,27 +2,35 @@
 
 <html>
 	<head>
-		<title>{{ name }}</title>
+		<title>CASH Music / {{ name }}</title>
+		<script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+		<link href="/assets/css/app.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	</head>
 	
 	<body>
-		
-	{{#name}}<h1>Name: {{name}}</h1>{{/name}}
-	{{#address1}}<p>Address: {{address1}}</p>{{/address1}}
-	{{#address2}}<p>Address: {{address2}}</p>{{/address2}}
-	{{#city}}<p>City: {{city}}</p>{{/city}}
-	{{#region}}<p>Region: {{region}}</p>{{/region}}
-	{{#country}}<p>Country: {{country}}</p>{{/country}}
-	{{#postalcode}}<p>Postal Code: {{postalcode}}</p>{{/postalcode}}
-	{{#latitude}}<p>Latitude: {{latitude}}</p>{{/latitude}}
-	{{#longitude}}<p>Longitude: {{longitude}}</p>{{/longitude}}
-	{{#url}}<p>URL: {{url}}</p>{{/url}}
-	{{#phone}}<p>Phone: {{phone}}</p>{{/phone}}
+	<p><a href="/">Return to Search</a></p>
+
+	<div class="entry">	
+	{{#name}}<h1>{{name}}</h1>{{/name}}
+	{{#address1}}<p>{{address1}}</p>{{/address1}}
+	{{#address2}}<p>{{address2}}</p>{{/address2}}
+	{{#city}}<p>{{city}}</p>{{/city}}
+	{{#region}}<p>{{region}}</p>{{/region}}
+	{{#country}}<p>{{country}}</p>{{/country}}
+	{{#postalcode}}<p>{{postalcode}}</p>{{/postalcode}}
+	{{#latitude}}<p>Latitude:{{latitude}}</p>{{/latitude}}
+	{{#longitude}}<p>Longitude:{{longitude}}</p>{{/longitude}}
+	{{#url}}<p><a href="">{{url}}</a></p>{{/url}}
+	{{#phone}}<p>{{phone}}</p>{{/phone}}
 	{{#creationdate}}<p>Creation Date: {{creationdate}}</p>{{/creationdate}}
 	{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}
+	{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>{{/UUID}}
+	</div><!--entry-->
 	
-	{{#UUID}}<p><a href="edit/{{UUID}}.html">{{/UUID}}Edit this entry</a></p>
-	<p><a href="/">Back Home</a></p>
-	
+	{{#UUID}}<p><a class="btn" href="edit/{{UUID}}.html">{{/UUID}}Edit</a></p>
+
+
 	</body>
 </html>
