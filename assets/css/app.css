@@ -76,8 +76,8 @@ ul{
 }
 
 .logo svg{
-	width:70px;
-	height:70px;
+	width:60px;
+	height:60px;
 	fill:#fff;
 }
 
@@ -86,6 +86,19 @@ ul{
     -moz-transform: scale(1.2);
     -o-transform: scale(1.2);
     -ms-transform: scale(1.2);
+}
+
+.logo span, .logo a{
+	display: inline-block;
+}
+
+.logo span{
+	color:#fff;
+	margin:-38px 0 0 10px;
+	padding:0;
+	vertical-align: middle;
+	font-size: 14px;
+	text-transform: uppercase;
 }
 
 .loading #search{
@@ -135,18 +148,18 @@ ul{
 }
 
 #search input{
-	background:url('../img/search.svg');
+	background:#f5f5f5 url('../img/search.svg') 2.2% 50% no-repeat;
+	background-size: 3%;
 	font-family: 'Montserrat', 'helvetica', arial, sans-serif;
 	display: inline-block;
-	color:#222;
+	color:#666;
 	font-size: 14px;
-	background:#f5f5f5;
 	border:none;
-	padding:20px;
+	padding:20px 20px 20px 60px;
 	width:100%;
-	-webkit-transition: 1s background width ease-in-out;
-	-moz-transition: 1s background width ease-in-out;
-	transition: 1s background width ease-in-out;
+	-webkit-transition: 1s width ease-in-out;
+	-moz-transition: 1s width ease-in-out;
+	transition: 1s width ease-in-out;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -156,10 +169,16 @@ ul{
 }
 
 #search input:active, #search input:focus{
-	background:#fff;
+	background:#fff url('../img/search.svg') 2.2% 50% no-repeat;
+	background-size: 3%;
 	outline:none;
 }
 
+.display #search input{
+	background:#f5f5f5 url('../img/search.svg') 5% 50% no-repeat;
+	background-size: 5%;
+	padding:20px 20px 20px 50px;
+}
 
 #search input[type="submit"]{
 	padding:30px;
@@ -174,7 +193,6 @@ ul{
 	height:100%;
 	background:#eee;
 	background:rgba(238,238,238,0.9);
-	/*background:#111;*/
 	padding:30px;
 	overflow:auto;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -195,7 +213,7 @@ ul{
 }
 
 .result{
-	width:60%;
+	width:80%;
 	margin:0 auto 10px auto;
 	opacity: 0;
 	visibility: hidden;
