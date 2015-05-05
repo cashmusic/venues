@@ -64,8 +64,8 @@ ul{
 	margin:30px;
 	padding:0;
 	opacity: 0;
-	-webkit-filter: drop-shadow(0px 0px 7px rgba(0,0,0,0.9)); 
-	filter: drop-shadow(0px 0px 7px rgba(0,0,0,0.9));
+	-webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.9)); 
+	filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.9));
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition: 0.3s ease-in-out;
@@ -79,6 +79,11 @@ ul{
 	width:60px;
 	height:60px;
 	fill:#fff;
+	opacity: 0;
+}
+
+.loaded .logo svg{
+	opacity: 1;
 }
 
 .logo:hover{
@@ -117,8 +122,6 @@ ul{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	-webkit-filter: grayscale(100%); 
-	filter: grayscale(100%); 
 }
 
 #search{
@@ -131,6 +134,9 @@ ul{
 	left:0;
 	display:block;
 	height:100%;
+	-webkit-transition: 0.3s width, 0.3s opacity ease-in-out;
+	-moz-transition: 0.3s width, 0.3s opacity ease-in-out;
+	transition: 0.3s width, 0.3s opacity ease-in-out;
 }
 
 .display #search{
@@ -148,7 +154,10 @@ ul{
 }
 
 #search input{
-	background:#f5f5f5 url('../img/search.svg') 2.2% 50% no-repeat;
+	background-color:#f5f5f5;
+	background-image:url('../img/search.svg');
+	background-position:2.2% 50%;
+	background-repeat:no-repeat;
 	background-size: 3%;
 	font-family: 'Montserrat', 'helvetica', arial, sans-serif;
 	display: inline-block;
@@ -157,27 +166,39 @@ ul{
 	border:none;
 	padding:20px 20px 20px 60px;
 	width:100%;
-	-webkit-transition: 1s width ease-in-out;
-	-moz-transition: 1s width ease-in-out;
-	transition: 1s width ease-in-out;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+	-webkit-transition: 0.3s background-color ease-in-out;
+	-moz-transition: 0.3s background-color ease-in-out;
+	transition: 0.3s background-color ease-in-out;
 }
 
 #search input:active, #search input:focus{
-	background:#fff url('../img/search.svg') 2.2% 50% no-repeat;
+	background-color:#fff; 
+	background-image:url('../img/search.svg');
+	background-position: 2.2% 50%;
+	background-repeat:no-repeat;
 	background-size: 3%;
 	outline:none;
+	-webkit-transition: 0.3s background-color ease-in-out;
+	-moz-transition: 0.3s background-color ease-in-out;
+	transition: 0.3s background-color ease-in-out;
 }
 
 .display #search input{
-	background:#f5f5f5 url('../img/search.svg') 5% 50% no-repeat;
+	background-color:#f5f5f5;
+	background-image:url('../img/search.svg');
+	background-position:5% 50%;
+	background-repeat:no-repeat;
 	background-size: 5%;
 	padding:20px 20px 20px 50px;
+	-webkit-transition: 0.3s background-color ease-in-out;
+	-moz-transition: 0.3s background-color ease-in-out;
+	transition: 0.3s background-color ease-in-out;
 }
 
 #search input[type="submit"]{
@@ -192,19 +213,16 @@ ul{
 	width:50%;
 	height:100%;
 	background:#eee;
-	background:rgba(238,238,238,0.9);
+	background:rgba(238,238,238,0.98);
 	padding:30px;
 	overflow:auto;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
+	-webkit-transition: 0.3s right ease-in-out;
+	-moz-transition: 0.3s right ease-in-out;
+	transition: 0.3s right ease-in-out;
 }
 
 .display .results{
 	right:0%;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
 }
 
 .results .inner{
@@ -359,6 +377,47 @@ ul{
 	padding:20px;
 	text-align: left;
 	border:solid 1px #ddd;
+}
+
+/* Page Action */
+.action{
+	position: fixed;
+	top:0;
+	right:0;
+	color:#fff;
+	border:solid 1px #fff;
+	border-radius: 3px;
+	padding:10px 20px;
+	margin:30px 30px 0 0;
+	z-index: 3;
+	font-size: 14px;
+	-webkit-transition: 0.3s right ease-in-out;
+	-moz-transition: 0.3s right ease-in-out;
+	transition: 0.3s right ease-in-out;
+}
+
+.action:hover{
+	text-decoration: none;
+	background:#fff;
+	color:#666;
+}
+
+.display .action{
+	right:50%;
+}
+
+.twitter{
+	position: fixed;
+	bottom:0;
+	right:0;
+	margin:0 30px 26px 0;
+	-webkit-transition: 0.3s right ease-in-out;
+	-moz-transition: 0.3s right ease-in-out;
+	transition: 0.3s right ease-in-out;
+}
+
+.display .twitter{
+	right:50%;
 }
 
 footer{

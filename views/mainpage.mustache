@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>CASH Music / Venue Database</title>
+		<title>CASH Music - Open Venue Data</title>
 		<script src="assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="assets/js/main.js" type="text/javascript"></script>
 		<link href="assets/css/app.css" rel="stylesheet" type="text/css" />
@@ -38,6 +38,9 @@
 </g>
 </svg>
 </a></h1>
+	{{^author}}
+	<a class="action login" href="/">Login</a>
+	{{/author}}
 	</header>
 
 		<section id="search">
@@ -53,6 +56,9 @@
 
 		<footer>
 		<p>© 2015 CASH Music. All our code is open-source &amp; free forever. Photo by <a href="https://www.flickr.com/photos/axlright/" target="_blank">Alex Wright</a></p>
+
+		<p class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-via="cashmusic" data-hashtags="cashmusicopenvenuedata">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
 		</footer>
 	</body>
 </html>

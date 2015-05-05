@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>CASH Music / {{ name }}</title>
+		<title>CASH Music - Open Venue Data - {{ name }}</title>
 		<script src="/assets/js/jquery.min.js" type="text/javascript"></script>
 		<link href="/assets/css/app.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
@@ -10,10 +10,9 @@
 	</head>
 	
 	<body>
-	<p><a href="/">Return to Search</a></p>
-
 	<div class="entry">	
 	{{#name}}<h1>{{name}}</h1>{{/name}}
+	<div class="inner">
 	{{#address1}}<p>{{address1}}</p>{{/address1}}
 	{{#address2}}<p>{{address2}}</p>{{/address2}}
 	{{#city}}<p>{{city}}</p>{{/city}}
@@ -22,15 +21,14 @@
 	{{#postalcode}}<p>{{postalcode}}</p>{{/postalcode}}
 	{{#latitude}}<p>Latitude:{{latitude}}</p>{{/latitude}}
 	{{#longitude}}<p>Longitude:{{longitude}}</p>{{/longitude}}
-	{{#url}}<p><a href="">{{url}}</a></p>{{/url}}
+	{{#url}}<p><a href="http://{{url}}" target="_blank">{{url}}</a></p>{{/url}}
 	{{#phone}}<p>{{phone}}</p>{{/phone}}
 	{{#creationdate}}<p>Creation Date: {{creationdate}}</p>{{/creationdate}}
-	{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}
+	{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}</div><!--inner-->
 	{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>{{/UUID}}
 	</div><!--entry-->
 	
-	{{#UUID}}<p><a class="btn" href="edit/{{UUID}}.html">{{/UUID}}Edit</a></p>
-
+	{{#UUID}}<p><a class="action" href="edit/{{UUID}}.html">{{/UUID}}Edit</a></p>
 
 	</body>
 </html>
