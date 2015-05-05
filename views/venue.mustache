@@ -9,7 +9,8 @@
 		<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	</head>
 	
-	<body class="venue">
+	<body class="loaded venue">
+	<header>
 		<h1 class="logo"><a href="http://cashmusic.org" target="_blank"><svg version="1.1" id="Layer_22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="240.958px" height="240.732px" viewBox="0 0 240.958 240.732" enable-background="new 0 0 240.958 240.732"
 	 xml:space="preserve">
@@ -36,7 +37,12 @@
 </g>
 </svg>
 </a></h1>
-	<div class="entry">	
+<div class="return">Return to Search</div>
+	{{#UUID}}<div class="action edit">Edit</div>{{/UUID}}
+	</header>
+	<div class="entry-container">
+	<div id="card">
+	<div class="front">	
 	{{#name}}<h1>{{name}}</h1>{{/name}}
 	<div class="inner">
 	{{#address1}}<p>{{address1}}</p>{{/address1}}
@@ -55,9 +61,85 @@
 
 	<p class="code"><strong>API Response:</strong> {"id":"2","name":"The Echo","address1":"Sunset Ave","address2":"","city":"Los Angeles","region":"CA","country":"USA","postalcode":"","latitude":"0","longitude":"0","url":"www.theecho.com","phone":"","creationdate":null,"modificationdate":null,"type":"Venue","UUID":"cashmusic5525a5af40ee5"}</p>
 
-	</div><!--entry-->
-	
-	{{#UUID}}<p><a class="action" href="edit/{{UUID}}.html">{{/UUID}}Edit</a></p>
+	</div><!--front-->
+	<div class="back">
+			<h1>{{name}}</h1>
+	<form class="edit-form" action="edit.php" method="post">
+			<label>Venue Name:</label>
+			<input type="text" name="venuename" id="venuename" value="{{name}}">
+			<label>Address:</label>
+			<input type="text" name="address1" id="address1" value="{{address1}}">
+			<label>Address:</label>
+			<input type="text" name="address2" id="address2" value="{{address2}}"></p>
+			<label>City:</label>
+			<input type="text" name="city" id="city" value="{{city}}">
+			<label>State/Region:</label>
+			<input type="text" name="region" id="region" value="{{region}}">
+			<label>Country:</label>
+			<input type="text" name="country" id="country" value="USA" placeholder="{{country}}">
+			<label>Postal Code:</label>
+			<input type="text" name="postalcode" id="postcode" value="{{postalcode}}">
+			<label>Latitude:</label>
+			<input type="text" name="latitude" id="latitude" value="{{latitude}}">
+			<label>Longitude:</label>
+			<input type="text" name="longitude" id="longitude" value="{{longitude}}">
+			<label>Website URL:</label>
+			<input type="text" name="url" id="url" value="{{url}}">	
+			<label>Phone:</label>
+			<input type="text" name="phone" id="phone" value="{{phone}}">
+			<label>Type:</label>
+			<input type="text" name="type" id="type" value="{{type}}">
+			<input type="hidden" name="UUID" value="{{UUID}}">
+			<input type="submit" value="Submit">
+		</form>	
+	</div><!--back-->
+	</div><!--card-->
+	</div><!--entry-container-->
+	<footer>
+		<p>© 2015 CASH Music. All our code is open-source &amp; free forever. Photo by <a href="https://www.flickr.com/photos/axlright/" target="_blank">Alex Wright</a></p>
+
+		<p class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-via="cashmusic" data-hashtags="cashmusicopenvenuedata">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
+		</footer>s
+
+	<script>
+	$(document).ready(function() {
+
+		$('.return').click(function(){
+  		console.log('back click');
+        parent.history.back();
+        return false;
+    	});
+
+    	$('.edit').click(function(){
+  		console.log('flip it! flip it good!');
+        $('#card').toggleClass('flipped');
+    	});
+
+    	/*$("#submit").click(function(){
+			var name = $("#name").val();
+			var email = $("#email").val();
+			var password = $("#password").val();
+			var contact = $("#contact").val();
+			// Returns successful data submission message when the entered information is stored in database.
+			var dataString = 'venuename='+venuename+'&address1='+address1+'&address2='+address2+'&city='+city+'&region='+region+'&country='+country+'&;
+			
+			// AJAX Code To Submit Form.
+			$.ajax({
+			type: "POST",
+			url: "edit.php",
+			data: dataString,
+			cache: false,
+			success: function(result){
+			alert(result);
+			}
+			});
+			}
+			return false;
+		});*/
+    });
+	</script>
+
 
 	</body>
 </html>
