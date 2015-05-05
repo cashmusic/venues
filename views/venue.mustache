@@ -53,12 +53,14 @@
 	{{#postalcode}}<p>{{postalcode}}</p>{{/postalcode}}
 	{{#phone}}<p class="phone">{{phone}}</p>{{/phone}}
 	</div><!--inner-->
+	{{#url}}<p class="website">Website: <a href="http://{{url}}" target="_blank">{{url}}</a></p>{{/url}}
+	{{#latitude}}
 	<div class="location">
-	<a target="_blank" href="http://maps.google.com/maps?q={{latitude}},{{longitude}}&z=10">Map</a>
-	{{#latitude}}<p>Latitude: {{latitude}}</p>{{/latitude}}
-	{{#longitude}}<p>Longitude: {{longitude}}</p>{{/longitude}}
-	</div><!--location-->
-	{{#url}}<p>Website: <a href="http://{{url}}" target="_blank">{{url}}</a></p>{{/url}}
+	Location:
+	{{#latitude}}<p>Latitude: <strong>{{latitude}}</strong></p>{{/latitude}}
+	{{#longitude}}<p>Longitude: <strong>{{longitude}}</strong></p>{{/longitude}}
+	<a target="_blank" href="http://maps.google.com/maps?q={{latitude}},{{longitude}}&z=10">View map</a>
+	</div><!--location-->{{/latitude}}
 	{{#creationdate}}<p>Creation Date: {{creationdate}}</p>{{/creationdate}}
 	{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}
 	{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>{{/UUID}}
