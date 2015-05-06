@@ -59,7 +59,7 @@ function searchit() {
       if (data.results != ""){
         var items = [];
           $(data.results).each(function(index, item) {
-            $('.results .inner').append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><p><span>"+ item.address1 + "</span><span>" + item.address2 + "</span><span>" + item.city + "</span><span>" + item.region + "</span><span>" + item.postalcode + "</span><span>" + item.country + "</span><span>" + item.url + "</span></p><p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>")
+            $('.results .inner').append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><div class='address'><p>"+ item.address1 + "</p><p>" + item.address2 + "</p><p>" + item.city + "</p><p>" + item.region + "</p><p>" + item.postalcode + "</p><p>" + item.country + "</p></div><p class='website'><a target='_blank' href='" + item.url + "'>"+ item.url +"</a></p></p><p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>")
           });
 
         }else{
