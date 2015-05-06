@@ -63,9 +63,8 @@
 	</div><!--location-->{{/latitude}}
 	{{#creationdate}}<p>Creation Date: {{creationdate}}</p>{{/creationdate}}
 	{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}
-	{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>{{/UUID}}
-
-	<p class="code"><strong>API Response:</strong> {"id":"2","name":"The Echo","address1":"Sunset Ave","address2":"","city":"Los Angeles","region":"CA","country":"USA","postalcode":"","latitude":"0","longitude":"0","url":"www.theecho.com","phone":"","creationdate":null,"modificationdate":null,"type":"Venue","UUID":"cashmusic5525a5af40ee5"}</p>
+	{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>
+	<p class="code"><strong>API Response:&nbsp;</strong></p>{{/UUID}}
 
 	</div><!--front-->
 	<div class="back">
@@ -362,13 +361,11 @@
 	$(document).ready(function() {
 
 		$('.return').click(function(){
-  		console.log('back click');
         parent.history.back();
         return false;
     	});
 
     	$('.edit').click(function(){
-  		console.log('flip it! flip it good!');
         $('#card').toggleClass('flipped');
     	});
 
@@ -397,6 +394,14 @@
 		// preselect country & type if they exist
 	  	$("#country").val("{{country}}"); 
 	  	$("#type").val("{{type}}");  
+
+	  	 $.getJSON( "/venues/{{UUID}}", function( data ) {
+	  	 	 var items = [];
+	  	 	 $(data).each(function(index, item) {
+            	$('.code').append(JSON.stringify(item));
+          });
+	  	 });
+
     });
 	</script>
 
