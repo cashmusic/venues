@@ -24,11 +24,6 @@ try {
 
 
 
-require 'twitteroauth-master/autoload.php';
-use Abraham\TwitterOAuth\TwitterOAuth;
-
-
-
 
 
 
