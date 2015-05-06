@@ -218,7 +218,7 @@ if ($requested_action == 'edited') {
   //1. Get request token.
 $connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET);
 
-$request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => OAUTH_CALLBACK));
+//$request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => OAUTH_CALLBACK));
 
 
 
