@@ -29,7 +29,6 @@ try {
 
 
 
-
 /**************************************************************
 *
 *       Set up Mustache
@@ -151,7 +150,7 @@ if ($requested_action == 'edited') {
      outputContent($venue,$output_format,'venue');
   } else {
      // stuff didn't work!
-     echo " woo 404 not found!";
+     echo "  404 not found!";
   }
 
 } else if ($requested_action == 'edit') {
@@ -185,8 +184,11 @@ if ($requested_action == 'edited') {
   if ($venue) {
      // output content to browser
      outputContent($venue,$output_format,'venue');
+    
     //$template = $mustache->loadTemplate('venue');
-  //echo $template->render(array("$venue" => $venue, 'loggedin' => $_SESSION['logged_in']));
+  //echo $template->render(array("" => $venue, 'loggedin' => $_SESSION['logged_in']));
+  
+
   } else {
      // stuff didn't work!
      echo "  404 not found!";
@@ -211,8 +213,6 @@ if ($requested_action == 'edited') {
   }
 } else {
 
-
-
   
   //Index page!
   // loads ALL venues in the db
@@ -229,6 +229,22 @@ if ($requested_action == 'edited') {
   $template = $mustache->loadTemplate('mainpage');
   echo $template->render(array("results" => $venues, 'loggedin' => $_SESSION['logged_in']));
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
@@ -259,7 +275,7 @@ function outputContent($data,$output_format,$template=false) {
       $template = $mustache->loadTemplate($template);
 
       
-      echo $template->render($data);
+      echo $template->render(array($data));
    } else {
       echo json_encode($data);
    }

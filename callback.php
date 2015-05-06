@@ -15,10 +15,10 @@ if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUE
     echo "Abort! Something is wrong.";
 } 
 
-$connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $request_token['oauth_token'], $request_token['oauth_token_secret']);
+$twitconnection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET, $request_token['oauth_token'], $request_token['oauth_token_secret']);
 
 
-$access_token = $connection->oauth("oauth/access_token", array("oauth_verifier" => $_REQUEST['oauth_verifier']));
+$access_token = $twitconnection->oauth("oauth/access_token", array("oauth_verifier" => $_REQUEST['oauth_verifier']));
 
 $_SESSION['access_token'] = $access_token;
 
@@ -29,12 +29,12 @@ unset($_SESSION['oauth_token_secret']);
 
 
 if (isset($access_token)) {
+
 	$_SESSION['logged_in'] = 'true';
 	
-	header('Location: '.$homepage); 
+	header('Location: /'); 
 
 } else {
 	echo "no";
 }
-
 ?>

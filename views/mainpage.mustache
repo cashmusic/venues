@@ -38,9 +38,13 @@
 </g>
 </svg>
 </a></h1>
-{{^author}}
-	<a class="action login" href="/redirect.php">Login</a>
-{{/author}}
+{{^loggedin}}
+	not logged in
+{{/loggedin}}
+{{#loggedin}}
+	logged in!
+{{/loggedin}}
+<a class="action login" href="/redirect.php">Login</a>
 	</header>
 
 		<section id="search">

@@ -10,6 +10,19 @@
 	</head>
 	
 	<body class="loaded venue">
+
+
+
+
+	{{^loggedin}}
+	not logged in
+{{/loggedin}}
+{{#loggedin}}
+	logged in!
+{{/loggedin}}
+
+
+
 	<header>
 		<h1 class="logo"><a href="http://cashmusic.org" target="_blank"><svg version="1.1" id="Layer_22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="240.958px" height="240.732px" viewBox="0 0 240.958 240.732" enable-background="new 0 0 240.958 240.732"
