@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 /**************************************************************
 *
 *				Database Connection
@@ -15,6 +15,24 @@ try {
 	echo $e->getMessage();
 	exit;
 }
+
+/**************************************************************
+*
+*       OAuth Stuff
+*
+**************************************************************/
+
+
+
+require 'twitteroauth-master/autoload.php';
+use Abraham\TwitterOAuth\TwitterOAuth;
+
+
+
+
+
+
+
 
 
 /**************************************************************
@@ -195,6 +213,27 @@ if ($requested_action == 'edited') {
      outputContent($search_results,$output_format,'search');
   }
 } else {
+
+
+  //1. Get request token.
+$connection = new TwitterOAuth($CONSUMER_KEY, $CONSUMER_SECRET);
+
+$request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => OAUTH_CALLBACK));
+
+
+
+// // 2. Keep the request token in the user's session.
+// $_SESSION['oauth_token'] = $request_token['oauth_token'];
+// $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+
+
+// // 3. Redirect the user to Twitter for authorization.
+
+
+// $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
+
+
+
 	
 	//Index page!
 	// loads ALL venues in the db
@@ -209,8 +248,26 @@ if ($requested_action == 'edited') {
 	
 
 	$template = $mustache->loadTemplate('mainpage');
-	echo $template->render(array("results" => $venues));
+	echo $template->render(array("results" => $venues, "oauthurl" => $url));
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -245,5 +302,3 @@ function outputContent($data,$output_format,$template=false) {
    }
 }
 ?>
-
-
