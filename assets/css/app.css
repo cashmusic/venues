@@ -505,6 +505,9 @@ ul{
 	right:50%;
 }
 
+.display.venue .action, .display.venue .twitter{
+	right:0;
+}
 /* Twitter */
 
 .twitter{
