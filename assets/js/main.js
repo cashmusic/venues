@@ -83,7 +83,7 @@ function searchit() {
   else{
     $('body').removeClass('display');
   }
-} //searchit();
+}; //searchit();
 
 /* Sub Page Stuff */
 
@@ -96,38 +96,51 @@ function searchit() {
         $('#card').toggleClass('flipped');
       });
 
-    /* Edit Form Submit */
-    $(".edit-form").submit(function(e) {
+        // process the form
+    $('.edit-form').submit(function(event) {
+        event.preventDefault();
         
-      var formData = {
-            'name' : $('input[name=venuename]').val(),
-            'address1' : $('input[name=address1]').val(),
-            'address2' : $('input[name=address2]').val()
-          };
+        // get the form data
+        // there are many ways to get this data using jQuery (you can use the class or id also)
+        var formData = {
+            'venuename'    : $('input[name=venuename]').val(),
+            'address1'     : $('input[name=address1]').val(),
+            'address2'     : $('input[name=address2]').val(),
+            'city'         : $('input[name=city]').val(),
+            'region'       : $('input[name=region]').val(),
+            'country'      : $('select[name=country] option:selected').val(),
+            'postalcode'   : $('input[name=postalcode]').val(),
+            'latitude'     : $('input[name=latitude]').val(),
+            'longitude'    : $('input[name=longitude]').val(),
+            'url'          : $('input[name=url]').val(),
+            'phone'        : $('input[name=phone]').val(),
+            'type'         : $('select[name=type] option:selected').val(),
+            'UUID'         : $('input[name=UUID]').val()
+        };
 
-          console.log(formData);
-
-      // AJAX Code To Submit Form.
-      $.ajax({
-      type: "POST",
-      url: "http://localhost:8888/venues/edit/{{UUID}}",
-      data: formData,
-      dataType: 'json',
-            encode: true
-      })
-  
-      .done(function(data) {
+        // process the form
+        $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '/process.php', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+                // log data to the console so we can see
                 console.log(data); 
                 $('#card').toggleClass('flipped');
+                location.reload();
+                // here we will handle errors and validation messages
             })
-
+                // using the fail promise callback
             .fail(function(data) {
-              alert('fucked up');
-          console.log( data );
+             // show any errors
+            // best to remove for production
+            console.log(data);
+            });
         });
-
-      e.preventDefault();
-    });
 
     // preselect country & type if they exist
       $("#country").val("{{country}}"); 
@@ -137,7 +150,7 @@ function searchit() {
          var items = [];
          $(data).each(function(index, item) {
               $('.code').append(JSON.stringify(item));
-          });
+          })
        });
 
 }); // $document

@@ -76,8 +76,8 @@
 {{^loggedin}}
 	<div class="back">
 			<h1>{{name}}</h1>
-	<form class="edit-form">
-			<label>Venue Name:</label>
+	    <form class="edit-form" action="process.php" method="POST">
+		<label>Venue Name:</label>
 			<input type="text" name="venuename"value="{{name}}">
 			<label>Address:</label>
 			<input type="text" name="address1"  value="{{address1}}">
@@ -88,7 +88,6 @@
 			<label>State/Region:</label>
 			<input type="text" name="region" value="{{region}}">
 			<label>Country:</label>
-			<!--input type="text" name="country" id="country" value="{{country}}" placeholder="{{country}}" -->
 			<select name="country" placeholder="{{country}}">
 				<option value="AF">Afghanistan</option>
 				<option value="AX">Åland Islands</option>
@@ -335,7 +334,6 @@
 				<option value="ZM">Zambia</option>
 				<option value="ZW">Zimbabwe</option>
 			</select>
-
 			<label>Postal Code:</label>
 			<input type="text" name="postalcode" value="{{postalcode}}">
 			<label>Latitude:</label>
@@ -347,7 +345,6 @@
 			<label>Phone:</label>
 			<input type="text" name="phone" placeholder="+1" value="{{phone}}">
 			<label>Type:</label>
-			<!--input type="text" name="type" id="type" value="{{type}}"-->
 			<select name="type" placeholder="{{type}}">
 				<option value="Venue">Venue</option>
 			</select>
