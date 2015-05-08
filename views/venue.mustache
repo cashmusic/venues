@@ -42,9 +42,6 @@
 	{{#loggedin}}
 	{{#UUID}}<div class="action edit">Edit</div>{{/UUID}}
 	{{/loggedin}}
-	{{^loggedin}}
-	<a class="action login" href="/redirect.php">Login</a>
-	{{/loggedin}}
 	</div><!--actions-->
 	</header>
 	<div class="entry-container">
@@ -74,7 +71,7 @@
 	<p class="code"><strong>API Response:&nbsp;</strong></p>{{/UUID}}
 
 	</div><!--front-->
-{{^loggedin}}
+{{#loggedin}}
 	<div class="back">
 			<h1>{{name}}</h1>
 	    <form class="edit-form" action="process.php" method="POST">
