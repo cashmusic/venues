@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
 var dirs = window.location.pathname.substring(1);
 
   if (dirs == "" ){
@@ -96,6 +97,7 @@ function searchit() {
         $('#card').toggleClass('flipped');
       });
 
+
         // process the form
     $('.edit-form').submit(function(event) {
         event.preventDefault();
@@ -141,16 +143,5 @@ function searchit() {
             console.log(data);
             });
         });
-
-    // preselect country & type if they exist
-      $("#country").val("{{country}}"); 
-      $("#type").val("{{type}}");  
-
-       $.getJSON( "/venues/{{UUID}}", function( data ) {
-         var items = [];
-         $(data).each(function(index, item) {
-              $('.code').append(JSON.stringify(item));
-          })
-       });
 
 }); // $document
