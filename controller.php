@@ -113,7 +113,7 @@ if ($requested_action == 'edited') {
   
 
     
-      $venuename = $_POST['venuename'];
+    $venuename = $_POST['venuename'];
     $address1 = $_POST['address1'];
     $address2 = $_POST['address2'];
     $city = $_POST['city'];
@@ -228,11 +228,8 @@ if ($requested_action == 'edited') {
 
   $template = $mustache->loadTemplate('mainpage');
   echo $template->render(array("results" => $venues, 'loggedin' => $_SESSION['logged_in']));
-  
-
 
 }
-
 
 
 /**************************************************************
