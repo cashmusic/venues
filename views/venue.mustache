@@ -37,14 +37,15 @@
 </g>
 </svg>
 </a></h1>
-<div class="action return">Return to Search</div>
-	{{^loggedin}}
-	{{#UUID}}<div class="action edit">Edit</div>{{/UUID}}
-	<!--a class="action login" href="/logout.php">Logout</a-->
-	{{/loggedin}}
+	<div class="actions">
+	<div class="action return">Return to Search</div>
 	{{#loggedin}}
+	{{#UUID}}<div class="action edit">Edit</div>{{/UUID}}
+	{{/loggedin}}
+	{{^loggedin}}
 	<a class="action login" href="/redirect.php">Login</a>
 	{{/loggedin}}
+	</div><!--actions-->
 	</header>
 	<div class="entry-container">
 	<div id="card">
@@ -88,7 +89,7 @@
 			<label>State/Region:</label>
 			<input type="text" name="region" value="{{region}}">
 			<label>Country:</label>
-			<select name="country" placeholder="{{country}}">
+			<select name="country" placeholder="Country">
 				<option value="AF">Afghanistan</option>
 				<option value="AX">Åland Islands</option>
 				<option value="AL">Albania</option>
@@ -361,5 +362,23 @@
 		<p class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-via="cashmusic" data-hashtags="cashmusicopenvenuedata">Tweet</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
 	</footer>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+		  $("select[name=country] option:selected").val("{{country}}"); 
+	      $("select[name=type] option:selected").val("{{type}}");  
+
+	       $.getJSON( "/venues/{{UUID}}", function( vd ) {
+	        console.log('getting venue response?');
+	         var vitems = [];
+	         $(vd).each(function(index, item) {
+	              $('.code').append(JSON.stringify(item));
+	              console.log(JSON.stringify(item));
+	          })
+	       });
+
+	   	});
+    </script>
 	</body>
 </html>

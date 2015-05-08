@@ -478,16 +478,21 @@ ul{
 }
 /* Page Action */
 
-.action{
+.actions{
 	position: fixed;
 	top:0;
 	right:0;
+	margin:30px 30px 0 0;
+	z-index: 3;
+}
+
+.action{
+	display:inline-block;
 	color:#fff;
 	border:solid 1px #fff;
 	border-radius: 3px;
 	padding:10px 20px;
-	margin:30px 30px 0 0;
-	z-index: 3;
+	margin: 0;
 	font-size: 14px;
 	-webkit-transition: 0.3s right ease-in-out;
 	-moz-transition: 0.3s right ease-in-out;
@@ -501,11 +506,11 @@ ul{
 	cursor: pointer;
 }
 
-.display .action{
+.display .actions{
 	right:50%;
 }
 
-.display.venue .action, .display.venue .twitter{
+.display.venue .actions, .display.venue .twitter{
 	right:0;
 }
 /* Twitter */
@@ -681,9 +686,6 @@ body.loaded.venue{
 	text-align: left;
 }
 
-.return{
-	margin:30px 105px 0 0;
-}
 
 #card .front .location p, #card .front .location a,  #card .front .website p,  #card .front .website a{
 	display: inline-block;
