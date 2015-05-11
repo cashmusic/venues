@@ -229,9 +229,9 @@ if ($requested_action == 'edited') {
   // Load mustache template for main page
   
   if (isset($_SESSION['access_token'])) {
-    $_SESSION['access_token'] = 'true';
+    $_SESSION['access_token'] = True;
   } else {
-    $_SESSION['access_token'] = 'false';
+    $_SESSION['access_token'] = False;
   }
 
   $template = $mustache->loadTemplate('mainpage');

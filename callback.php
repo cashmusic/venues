@@ -32,10 +32,10 @@ $attemptedTwitterName = $access_token["screen_name"];
 if (in_array($attemptedTwitterName, $okTwitterNames)) {
     if (isset($access_token)) {
 
-		$_SESSION['logged_in'] = 'true';
+		$_SESSION['logged_in'] = True;
 		
 		header('Location: /'); 
-
+		
 	} else {
 		echo "no";
 	}
