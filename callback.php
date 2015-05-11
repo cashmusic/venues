@@ -27,14 +27,23 @@ $_SESSION['access_token'] = $access_token;
 unset($_SESSION['oauth_token']);
 unset($_SESSION['oauth_token_secret']); 
 
+$attemptedTwitterName = $access_token["screen_name"];
 
-if (isset($access_token)) {
+if (in_array($attemptedTwitterName, $okTwitterNames)) {
+    if (isset($access_token)) {
 
-	$_SESSION['logged_in'] = 'true';
-	
-	header('Location: /'); 
+		$_SESSION['logged_in'] = 'true';
+		
+		header('Location: /'); 
+
+	} else {
+		echo "no";
+	}
 
 } else {
-	echo "no";
+
+	header('Location: /'); 
 }
+
+
 ?>

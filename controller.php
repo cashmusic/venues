@@ -74,7 +74,7 @@ $exploded_route = explode("/",$route);
 
 if (isset($exploded_route[2])) {
 
-  if (count($exploded_route) > 1 && $exploded_route[2] == 'edit.php') {
+  if (count($exploded_route) > 1 && $exploded_route[2] == 'process.php') {
      $requested_action = 'edited';
      $UUID = $_POST['UUID'];
 
@@ -207,6 +207,9 @@ if ($requested_action == 'edited') {
      $search = $searcharray->fetchALL(PDO::FETCH_ASSOC);
      $search_results = array("results" => $search, "name" => $name);
      // output content to browser
+
+     
+
      outputContent($search_results,$output_format,'search');
   }
 } else {
@@ -225,9 +228,18 @@ if ($requested_action == 'edited') {
   $venues = $results->fetchAll(PDO::FETCH_ASSOC);
   // Load mustache template for main page
   
+  if (isset($_SESSION['access_token'])) {
+    $_SESSION['access_token'] = 'true';
+  } else {
+    $_SESSION['access_token'] = 'false';
+  }
 
   $template = $mustache->loadTemplate('mainpage');
+
   echo $template->render(array("results" => $venues, 'loggedin' => $_SESSION['logged_in']));
+  
+
+
 
 }
 
