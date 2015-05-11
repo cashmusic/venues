@@ -253,6 +253,7 @@ function outputContent($data,$output_format,$template=false) {
   ));
    if ($output_format == 'html') {
       //setMustache();
+      $data["loggedin"] = $_SESSION['logged_in'];
       $template = $mustache->loadTemplate($template);
 
       
