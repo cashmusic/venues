@@ -131,7 +131,7 @@ function searchit() {
             // using the done promise callback
             .done(function(data) {
                 // log data to the console so we can see
-                console.log(data); 
+                //console.log(data); 
                 $('#card').toggleClass('flipped');
                 location.reload();
                 // here we will handle errors and validation messages
@@ -139,8 +139,7 @@ function searchit() {
                 // using the fail promise callback
             .fail(function(data) {
              // show any errors
-            // best to remove for production
-            console.log(data);
+            //console.log(data);
             });
         });
 

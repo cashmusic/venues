@@ -363,11 +363,10 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 
-		  $("select[name=country] option:selected").val("{{country}}"); 
-	      $("select[name=type] option:selected").val("{{type}}");  
+		  $("select[name=country]").val("{{country}}"); 
+	      $("select[name=type]").val("{{type}}");  
 
 	       $.getJSON( "/venues/{{UUID}}", function( vd ) {
-	        console.log('getting venue response?');
 	         var vitems = [];
 	         $(vd).each(function(index, item) {
 	              $('.code').append(JSON.stringify(item));
