@@ -26,13 +26,13 @@ Search results:
 ```JSON
 [
 	{
-		"identifier":"04ft9",
+		"UUID":"04ft9",
 		"name":"The Echo",
 		"city":"Los Angeles",
 		"country":"USA"
 	},
 	{
-		"identifier":"316y8",
+		"UUID":"316y8",
 		"name":"Echoplex",
 		"city":"Los Angeles",
 		"country":"USA"
@@ -43,7 +43,7 @@ Search results:
 Venue data:
 ```JSON
 {
-	"identifier":"04ft9",
+	"UUID":"04ft9",
 	"name":"The Echo",
 	"type":"venue",
 	"address1":"1822 Sunset Blvd",
