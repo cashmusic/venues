@@ -198,8 +198,8 @@ if ($requested_action == 'edited') {
   if(isset($name)) {
      // gets all venues with the search term in the name somewhere
      try {
-        $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE '%" . $name . "%'");
-        $searcharray->execute();
+        $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE '%:name%'");
+        $searcharray->execute(array(':name' => $name));
      } catch(Exception $e) {
         echo $e->getMessage();
         exit;
