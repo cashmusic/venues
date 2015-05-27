@@ -69,6 +69,7 @@ if (isset($exploded_route[2])) {
 *
 *************************************************************/
 
+/////////////////////////////// EDITED
 if ($requested_action == 'edited') {
 
    $venuename = $_POST['venuename'];
@@ -96,6 +97,7 @@ if ($requested_action == 'edited') {
    }
    header('Location: /venues/' . $UUID . '.html');
 
+/////////////////////////////// EDIT
 } else if ($requested_action == 'edit') {
    // load the venue with the matching UUID for editing
 
@@ -111,6 +113,8 @@ if ($requested_action == 'edited') {
    $venue = $venuearray->fetch(PDO::FETCH_ASSOC);
    // output content to browser
    outputContent($venue,$output_format,'edit');
+
+/////////////////////////////// DETAILS
 } else if ($requested_action == 'details') {
 
    // load venue with matching UUID, this info is on the specific venue details page
@@ -131,14 +135,16 @@ if ($requested_action == 'edited') {
       // stuff didn't work!
       echo "  404 not found!";
    }
+
+/////////////////////////////// SEARCH
 } else if ($requested_action == 'search') {
    $name = $_GET['q']; // the search term
 
    if(isset($name)) {
       // gets all venues with the search term in the name somewhere
       try {
-         $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE '%" . $name . "%'");
-         $searcharray->execute();
+         $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE :query");
+         $searcharray->execute(array(':query' => '%'.$name.'%'));
       } catch(Exception $e) {
          echo $e->getMessage();
          exit;
@@ -149,6 +155,8 @@ if ($requested_action == 'edited') {
       // output content to browser
       outputContent($search_results,$output_format,'search');
    }
+
+/////////////////////////////// MAIN PAGE
 } else {
    if (isset($_SESSION['access_token'])) {
       $_SESSION['access_token'] = True;

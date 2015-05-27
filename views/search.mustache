@@ -9,27 +9,19 @@
 		<script src="autocomplete.js"></script>
 		<link rel="stylesheet" href="style.css">
 	</head>
-	
+
 	<body>
-		
+
 	<h1>Search for: {{name}}</h1>
-	
+
 	<ul>
-		
-			
-			
-			{{#results}}
-     			<li>{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
-			{{/results}}
-			{{^results}}
-     			<p>No results.</p>
-			{{/results}}
-			
-			
-<!-- 			how do i iterate through this list using mustache?     -->
-			
+		{{#results}}
+			<li>{{#name}}{{#UUID}}<p><a href="venues/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
+		{{/results}}
+		{{^results}}
+			<p>No results.</p>
+		{{/results}}
 	</ul>
-	
 	
 	</body>
 </html>
