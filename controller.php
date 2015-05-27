@@ -18,31 +18,6 @@ try {
 
 /**************************************************************
 *
-*       OAuth Stuff
-*
-**************************************************************/
-
-
-
-
-
-
-
-
-
-/**************************************************************
-*
-*       Set up Mustache
-*
-**************************************************************/
-  require_once(__DIR__.'/lib/mustache/Autoloader.php');
-  Mustache_Autoloader::register();
-  $mustache = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/views')
-  ));
-
-/**************************************************************
-*
 *       Routes and Formats
 *
 **************************************************************/
@@ -92,10 +67,10 @@ if (isset($exploded_route[2])) {
      $requested_action = 'details';
      $UUID = $exploded_route[1];
 
-  } 
+  }
 }
 
-  
+
 
 
 /*************************************************************
@@ -106,13 +81,13 @@ if (isset($exploded_route[2])) {
 
 // if we found something to do, include needed files and get doing...
 
-  
+
 
 if ($requested_action == 'edited') {
-  
-  
 
-    
+
+
+
     $venuename = $_POST['venuename'];
     $address1 = $_POST['address1'];
     $address2 = $_POST['address2'];
@@ -126,26 +101,26 @@ if ($requested_action == 'edited') {
     $phone = $_POST['phone'];
     $type = $_POST['type'];
     $UUID = $_POST['UUID'];
-      
+
     try {
-      
+
       $sql = "UPDATE venues SET name = ?, address1 = ?,address2 = ?,city = ?,region = ?,country = ?,postalcode = ?,latitude = ?, longitude = ?, url = ?,phone = ?,type = ? WHERE UUID = ?";
-                  
+
       $q = $db->prepare($sql);
       $q->execute(array($venuename,$address1,$address2,$city,$region,$country,$postalcode,$latitude, $longitude, $url,$phone,$type,$UUID));
-              
-      
+
+
 
       } catch(Exception $e) {
          echo $e->getMessage();
          exit;
       }
-  
+
   // output content to browser (we're cheating here, assuming success)
   //outputContent($output_format,'edit');
   header('Location: /venues/' . $UUID . '.html');
 
-  
+
   if ($venue) {
      // output content to browser
      outputContent($venue,$output_format,'venue');
@@ -170,13 +145,13 @@ if ($requested_action == 'edited') {
   // output content to browser
   outputContent($venue,$output_format,'edit');
 } else if ($requested_action == 'details') {
-  
+
   // load venue with matching UUID, this info is on the specific venue details page
   try {
      $venuearray = $db->prepare('SELECT * FROM venues WHERE UUID = ?');
      $venuearray->bindParam(1, $UUID);
      $venuearray->execute();
-     
+
   } catch(Exception $e) {
      echo $e->getMessage();
      exit;
@@ -185,8 +160,6 @@ if ($requested_action == 'edited') {
   if ($venue) {
      // output content to browser
      outputContent($venue,$output_format,'venue');
-    //$template = $mustache->loadTemplate('venue');
-  //echo $template->render(array("$venue" => $venue, 'loggedin' => $_SESSION['logged_in']));
   } else {
      // stuff didn't work!
      echo "  404 not found!";
@@ -194,7 +167,7 @@ if ($requested_action == 'edited') {
 } else if ($requested_action == 'search') {
 
   $name = $_GET['q']; // the search term
-  
+
   if(isset($name)) {
      // gets all venues with the search term in the name somewhere
      try {
@@ -208,7 +181,7 @@ if ($requested_action == 'edited') {
      $search_results = array("results" => $search, "name" => $name);
      // output content to browser
 
-     
+
 
      outputContent($search_results,$output_format,'search');
   }
@@ -216,7 +189,7 @@ if ($requested_action == 'edited') {
 
 
 
-  
+
   //Index page!
   // loads ALL venues in the db
   try {
@@ -227,20 +200,14 @@ if ($requested_action == 'edited') {
   }
   $venues = $results->fetchAll(PDO::FETCH_ASSOC);
   // Load mustache template for main page
-  
+
   if (isset($_SESSION['access_token'])) {
     $_SESSION['access_token'] = True;
   } else {
     $_SESSION['access_token'] = False;
   }
 
-  $template = $mustache->loadTemplate('mainpage');
-
-  echo $template->render(array("results" => $venues, 'loggedin' => $_SESSION['logged_in']));
-  
-
-
-
+  outputContent(array("results" => $venues, 'loggedin' => $_SESSION['logged_in']),'html','mainpage');
 }
 
 
@@ -260,16 +227,14 @@ function setHeaders($output_format) {
 }
 function outputContent($data,$output_format,$template=false) {
    setHeaders($output_format);
-   $mustache = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/views')
-  ));
+   require_once(__DIR__.'/lib/mustache/Mustache.php');
+   $mustache = new Mustache;
    if ($output_format == 'html') {
       //setMustache();
       $data["loggedin"] = $_SESSION['logged_in'];
-      $template = $mustache->loadTemplate($template);
+      $template = file_get_contents(__DIR__.'/views/'.$template.'.mustache');
 
-      
-      echo $template->render($data);
+      echo $mustache->render($template,$data);
    } else {
       echo json_encode($data);
    }
