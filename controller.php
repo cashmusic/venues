@@ -130,6 +130,12 @@ if ($requested_action == 'edited') {
    $venue = $venuearray->fetch(PDO::FETCH_ASSOC);
    if ($venue) {
       // output content to browser
+      if ($venue['creationdate']) {
+         $venue['creationdate'] = date("F j, Y",$venue['creationdate']);
+      }
+      if ($venue['modificationdate']) {
+         $venue['modificationdate'] = date("F j, Y",$venue['modificationdate']);
+      }
       outputContent($venue,$output_format,'venue');
    } else {
       // stuff didn't work!
