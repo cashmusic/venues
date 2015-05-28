@@ -64,7 +64,7 @@ ul{
 	margin:30px;
 	padding:0;
 	opacity: 0;
-	-webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.9)); 
+	-webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.9));
 	filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.9));
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -183,7 +183,7 @@ ul{
 }
 
 #search input:active, #search input:focus{
-	background-color:#fff; 
+	background-color:#fff;
 	background-image:url('../img/search.svg');
 	background-position: 2.2% 50%;
 	background-repeat:no-repeat;
@@ -241,12 +241,8 @@ ul{
 	opacity: 0;
 	visibility: hidden;
 	background:#eee;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	padding:20px;
+	padding:10px;
 	text-align: left;
-	border:solid 1px #ddd;
 	-webkit-transition: 0.3s  cubic-bezier(0.65, 0.05, 0.36, 1);
 	-moz-transition: 0.3s  cubic-bezier(0.65, 0.05, 0.36, 1);
 	transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
@@ -400,7 +396,7 @@ ul{
   	padding:20px;
   	width:100%;
   	backface-visibility: hidden;
-  	-webkit-backface-visibility: hidden; 
+  	-webkit-backface-visibility: hidden;
   	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -465,7 +461,7 @@ ul{
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
   	backface-visibility: visible;
-  	-webkit-backface-visibility: visible; 
+  	-webkit-backface-visibility: visible;
 }
 
 #card .front{
@@ -720,5 +716,3 @@ body.loaded.venue{
 	float: right;
 	margin:9px 0;
 }
-
-

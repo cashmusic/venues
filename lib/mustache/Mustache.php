@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A Mustache implementation in PHP.
  *
@@ -12,8 +13,10 @@
  * @author Justin Hileman {@link http://justinhileman.com}
  */
 class Mustache {
+
 	const VERSION      = '1.1.0';
 	const SPEC_VERSION = '1.1.2';
+
 	/**
 	 * Should this Mustache throw exceptions when it finds unexpected tags?
 	 *
@@ -26,10 +29,13 @@ class Mustache {
 		MustacheException::UNKNOWN_PARTIAL          => false,
 		MustacheException::UNKNOWN_PRAGMA           => true,
 	);
+
 	// Override the escaper function. Defaults to `htmlspecialchars`.
 	protected $_escape;
+
 	// Override charset passed to htmlentities() and htmlspecialchars(). Defaults to UTF-8.
 	protected $_charset = 'UTF-8';
+
 	/**
 	 * Pragmas are macro-like directives that, when invoked, change the behavior or
 	 * syntax of Mustache.
@@ -37,6 +43,7 @@ class Mustache {
 	 * They should be considered extremely experimental. Most likely their implementation
 	 * will change in the future.
 	 */
+
 	/**
 	 * The {{%UNESCAPED}} pragma swaps the meaning of the {{normal}} and {{{unescaped}}}
 	 * Mustache tags. That is, once this pragma is activated the {{normal}} tag will not be
@@ -48,22 +55,29 @@ class Mustache {
 	 * This may be useful in non-HTML Mustache situations.
 	 */
 	const PRAGMA_UNESCAPED    = 'UNESCAPED';
+
 	/**
 	 * Constants used for section and tag RegEx
 	 */
 	const SECTION_TYPES = '\^#\/';
 	const TAG_TYPES = '#\^\/=!<>\\{&';
+
 	protected $_otag = '{{';
 	protected $_ctag = '}}';
+
 	protected $_tagRegEx;
+
 	protected $_template = '';
 	protected $_context  = array();
 	protected $_partials = array();
 	protected $_pragmas  = array();
+
 	protected $_pragmasImplemented = array(
 		self::PRAGMA_UNESCAPED
 	);
+
 	protected $_localPragmas = array();
+
 	/**
 	 * Mustache class constructor.
 	 *
@@ -112,6 +126,7 @@ class Mustache {
 		if ($view !== null)     $this->_context = array($view);
 		if ($options !== null)  $this->_setOptions($options);
 	}
+
 	/**
 	 * Helper function for setting options from constructor args.
 	 *
@@ -126,9 +141,11 @@ class Mustache {
 			}
 			$this->_escape = $options['escape'];
 		}
+
 		if (isset($options['charset'])) {
 			$this->_charset = $options['charset'];
 		}
+
 		if (isset($options['delimiters'])) {
 			$delims = $options['delimiters'];
 			if (!is_array($delims)) {
@@ -137,6 +154,7 @@ class Mustache {
 			$this->_otag = $delims[0];
 			$this->_ctag = $delims[1];
 		}
+
 		if (isset($options['pragmas'])) {
 			foreach ($options['pragmas'] as $pragma_name => $pragma_value) {
 				if (!in_array($pragma_name, $this->_pragmasImplemented, true)) {
@@ -145,12 +163,14 @@ class Mustache {
 			}
 			$this->_pragmas = $options['pragmas'];
 		}
+
 		if (isset($options['throws_exceptions'])) {
 			foreach ($options['throws_exceptions'] as $exception => $value) {
 				$this->_throwsExceptions[$exception] = $value;
 			}
 		}
 	}
+
 	/**
 	 * Mustache class clone method.
 	 *
@@ -164,6 +184,7 @@ class Mustache {
 		$this->_otag = '{{';
 		$this->_ctag = '}}';
 		$this->_localPragmas = array();
+
 		if ($keys = array_keys($this->_context)) {
 			$last = array_pop($keys);
 			if ($this->_context[$last] instanceof Mustache) {
@@ -171,6 +192,7 @@ class Mustache {
 			}
 		}
 	}
+
 	/**
 	 * Render the given template and view object.
 	 *
@@ -186,19 +208,25 @@ class Mustache {
 	public function render($template = null, $view = null, $partials = null) {
 		if ($template === null) $template = $this->_template;
 		if ($partials !== null) $this->_partials = $partials;
+
 		$otag_orig = $this->_otag;
 		$ctag_orig = $this->_ctag;
+
 		if ($view) {
 			$this->_context = array($view);
 		} else if (empty($this->_context)) {
 			$this->_context = array($this);
 		}
+
 		$template = $this->_renderPragmas($template);
 		$template = $this->_renderTemplate($template);
+
 		$this->_otag = $otag_orig;
 		$this->_ctag = $ctag_orig;
+
 		return $template;
 	}
+
 	/**
 	 * Wrap the render() function for string conversion.
 	 *
@@ -215,6 +243,7 @@ class Mustache {
 			return "Error rendering mustache: " . $e->getMessage();
 		}
 	}
+
 	/**
 	 * Internal render function, used for recursive calls.
 	 *
@@ -225,7 +254,9 @@ class Mustache {
 	protected function _renderTemplate($template) {
 		if ($section = $this->_findSection($template)) {
 			list($before, $type, $tag_name, $content, $after) = $section;
+
 			$rendered_before = $this->_renderTags($before);
+
 			$rendered_content = '';
 			$val = $this->_getVariable($tag_name);
 			switch($type) {
@@ -235,6 +266,7 @@ class Mustache {
 						$rendered_content = $this->_renderTemplate($content);
 					}
 					break;
+
 				// regular section
 				case '#':
 					// higher order sections
@@ -257,10 +289,13 @@ class Mustache {
 					}
 					break;
 			}
+
 			return $rendered_before . $rendered_content . $this->_renderTemplate($after);
 		}
+
 		return $this->_renderTags($template);
 	}
+
 	/**
 	 * Prepare a section RegEx string for the given opening/closing tags.
 	 *
@@ -277,6 +312,7 @@ class Mustache {
 			preg_quote($ctag, '/')
 		);
 	}
+
 	/**
 	 * Extract the first section from $template.
 	 *
@@ -286,10 +322,13 @@ class Mustache {
 	 */
 	protected function _findSection($template) {
 		$regEx = $this->_prepareSectionRegEx($this->_otag, $this->_ctag);
+
 		$section_start = null;
 		$section_type  = null;
 		$content_start = null;
+
 		$search_offset = 0;
+
 		$section_stack = array();
 		$matches = array();
 		while (preg_match($regEx, $template, $matches, PREG_OFFSET_CAPTURE, $search_offset)) {
@@ -299,11 +338,14 @@ class Mustache {
 				$search_offset = $matches[0][1] + strlen($matches[0][0]);
 				continue;
 			}
+
 			$match    = $matches[0][0];
 			$offset   = $matches[0][1];
 			$type     = $matches['type'][0];
 			$tag_name = trim($matches['tag_name'][0]);
+
 			$search_offset = $offset + strlen($match);
+
 			switch ($type) {
 				case '^':
 				case '#':
@@ -320,6 +362,7 @@ class Mustache {
 							throw new MustacheException('Unexpected close section: ' . $tag_name, MustacheException::UNEXPECTED_CLOSE_SECTION);
 						}
 					}
+
 					if (empty($section_stack)) {
 						// $before, $type, $tag_name, $content, $after
 						return array(
@@ -333,12 +376,14 @@ class Mustache {
 					break;
 			}
 		}
+
 		if (!empty($section_stack)) {
 			if ($this->_throwsException(MustacheException::UNCLOSED_SECTION)) {
 				throw new MustacheException('Unclosed section: ' . $section_stack[0], MustacheException::UNCLOSED_SECTION);
 			}
 		}
 	}
+
 	/**
 	 * Prepare a pragma RegEx for the given opening/closing tags.
 	 *
@@ -354,6 +399,7 @@ class Mustache {
 			preg_quote($ctag, '/')
 		);
 	}
+
 	/**
 	 * Initialize pragmas and remove all pragma tags.
 	 *
@@ -363,13 +409,16 @@ class Mustache {
 	 */
 	protected function _renderPragmas($template) {
 		$this->_localPragmas = $this->_pragmas;
+
 		// no pragmas
 		if (strpos($template, $this->_otag . '%') === false) {
 			return $template;
 		}
+
 		$regEx = $this->_preparePragmaRegEx($this->_otag, $this->_ctag);
 		return preg_replace_callback($regEx, array($this, '_renderPragma'), $template);
 	}
+
 	/**
 	 * A preg_replace helper to remove {{%PRAGMA}} tags and enable requested pragma.
 	 *
@@ -382,6 +431,7 @@ class Mustache {
 		$pragma         = $matches[0];
 		$pragma_name    = $matches['pragma_name'];
 		$options_string = $matches['options_string'];
+
 		if (!in_array($pragma_name, $this->_pragmasImplemented)) {
 			if ($this->_throwsException(MustacheException::UNKNOWN_PRAGMA)) {
 				throw new MustacheException('Unknown pragma: ' . $pragma_name, MustacheException::UNKNOWN_PRAGMA);
@@ -389,6 +439,7 @@ class Mustache {
 				return '';
 			}
 		}
+
 		$options = array();
 		foreach (explode(' ', trim($options_string)) as $o) {
 			if ($p = trim($o)) {
@@ -396,13 +447,16 @@ class Mustache {
 				$options[$p[0]] = $p[1];
 			}
 		}
+
 		if (empty($options)) {
 			$this->_localPragmas[$pragma_name] = true;
 		} else {
 			$this->_localPragmas[$pragma_name] = $options;
 		}
+
 		return '';
 	}
+
 	/**
 	 * Check whether this Mustache has a specific pragma.
 	 *
@@ -417,6 +471,7 @@ class Mustache {
 			return false;
 		}
 	}
+
 	/**
 	 * Return pragma options, if any.
 	 *
@@ -431,8 +486,10 @@ class Mustache {
 				throw new MustacheException('Unknown pragma: ' . $pragma_name, MustacheException::UNKNOWN_PRAGMA);
 			}
 		}
+
 		return (is_array($this->_localPragmas[$pragma_name])) ? $this->_localPragmas[$pragma_name] : array();
 	}
+
 	/**
 	 * Check whether this Mustache instance throws a given exception.
 	 *
@@ -445,6 +502,7 @@ class Mustache {
 	protected function _throwsException($exception) {
 		return (isset($this->_throwsExceptions[$exception]) && $this->_throwsExceptions[$exception]);
 	}
+
 	/**
 	 * Prepare a tag RegEx for the given opening/closing tags.
 	 *
@@ -462,6 +520,7 @@ class Mustache {
 			preg_quote($ctag, '/')
 		);
 	}
+
 	/**
 	 * Loop through and render individual Mustache tags.
 	 *
@@ -473,8 +532,10 @@ class Mustache {
 		if (strpos($template, $this->_otag) === false) {
 			return $template;
 		}
+
 		$first = true;
 		$this->_tagRegEx = $this->_prepareTagRegEx($this->_otag, $this->_ctag, true);
+
 		$html = '';
 		$matches = array();
 		while (preg_match($this->_tagRegEx, $template, $matches, PREG_OFFSET_CAPTURE)) {
@@ -482,30 +543,38 @@ class Mustache {
 			$offset   = $matches[0][1];
 			$modifier = $matches['type'][0];
 			$tag_name = trim($matches['tag_name'][0]);
+
 			if (isset($matches['leading']) && $matches['leading'][1] > -1) {
 				$leading = $matches['leading'][0];
 			} else {
 				$leading = null;
 			}
+
 			if (isset($matches['trailing']) && $matches['trailing'][1] > -1) {
 				$trailing = $matches['trailing'][0];
 			} else {
 				$trailing = null;
 			}
+
 			$html .= substr($template, 0, $offset);
+
 			$next_offset = $offset + strlen($tag);
 			if ((substr($html, -1) == "\n") && (substr($template, $next_offset, 1) == "\n")) {
 				$next_offset++;
 			}
 			$template = substr($template, $next_offset);
+
 			$html .= $this->_renderTag($modifier, $tag_name, $leading, $trailing);
+
 			if ($first == true) {
 				$first = false;
 				$this->_tagRegEx = $this->_prepareTagRegEx($this->_otag, $this->_ctag);
 			}
 		}
+
 		return $html . $template;
 	}
+
 	/**
 	 * Render the named tag, given the specified modifier.
 	 *
@@ -559,6 +628,7 @@ class Mustache {
 				break;
 		}
 	}
+
 	/**
 	 * Returns true if any of its args contains the "\r" character.
 	 *
@@ -574,6 +644,7 @@ class Mustache {
 		}
 		return false;
 	}
+
 	/**
 	 * Escape and return the requested tag.
 	 *
@@ -590,8 +661,10 @@ class Mustache {
 		} else {
 			$rendered = htmlentities($value, ENT_COMPAT, $this->_charset);
 		}
+
 		return $leading . $rendered . $trailing;
 	}
+
 	/**
 	 * Render a comment (i.e. return an empty string).
 	 *
@@ -610,6 +683,7 @@ class Mustache {
 		}
 		return $leading . $trailing;
 	}
+
 	/**
 	 * Return the requested tag unescaped.
 	 *
@@ -621,11 +695,14 @@ class Mustache {
 	 */
 	protected function _renderUnescaped($tag_name, $leading, $trailing) {
 		$val = $this->_getVariable($tag_name);
+
 		if ($this->_varIsCallable($val)) {
 			$val = $this->_renderTemplate(call_user_func($val));
 		}
+
 		return $leading . $val . $trailing;
 	}
+
 	/**
 	 * Render the requested partial.
 	 *
@@ -641,13 +718,16 @@ class Mustache {
 			$whitespace = trim($leading, "\r\n");
 			$partial = preg_replace('/(\\r?\\n)(?!$)/s', "\\1" . $whitespace, $partial);
 		}
+
 		$view = clone($this);
+
 		if ($leading !== null && $trailing !== null) {
 			return $leading . $view->render($partial);
 		} else {
 			return $leading . $view->render($partial) . $trailing;
 		}
 	}
+
 	/**
 	 * Change the Mustache tag delimiter. This method also replaces this object's current
 	 * tag RegEx with one using the new delimiters.
@@ -662,7 +742,9 @@ class Mustache {
 		list($otag, $ctag) = explode(' ', $tag_name);
 		$this->_otag = $otag;
 		$this->_ctag = $ctag;
+
 		$this->_tagRegEx = $this->_prepareTagRegEx($this->_otag, $this->_ctag);
+
 		if ($leading !== null && $trailing !== null) {
 			if (strpos($leading, "\n") === false) {
 				return '';
@@ -671,6 +753,7 @@ class Mustache {
 		}
 		return $leading . $trailing;
 	}
+
 	/**
 	 * Push a local context onto the stack.
 	 *
@@ -686,6 +769,7 @@ class Mustache {
 		}
 		$this->_context = $new;
 	}
+
 	/**
 	 * Remove the latest context from the stack.
 	 *
@@ -694,6 +778,7 @@ class Mustache {
 	 */
 	protected function _popContext() {
 		$new = array();
+
 		$keys = array_keys($this->_context);
 		array_shift($keys);
 		foreach ($keys as $key) {
@@ -701,6 +786,7 @@ class Mustache {
 		}
 		$this->_context = $new;
 	}
+
 	/**
 	 * Get a variable from the context array.
 	 *
@@ -721,6 +807,7 @@ class Mustache {
 		} else if (strpos($tag_name, '.') !== false) {
 			$chunks = explode('.', $tag_name);
 			$first = array_shift($chunks);
+
 			$ret = $this->_findVariableInContext($first, $this->_context);
 			foreach ($chunks as $next) {
 				// Slice off a chunk of context for dot notation traversal.
@@ -732,6 +819,7 @@ class Mustache {
 			return $this->_findVariableInContext($tag_name, $this->_context);
 		}
 	}
+
 	/**
 	 * Get a variable from the context array. Internal helper used by getVariable() to abstract
 	 * variable traversal for dot notation.
@@ -754,12 +842,14 @@ class Mustache {
 				return $view[$tag_name];
 			}
 		}
+
 		if ($this->_throwsException(MustacheException::UNKNOWN_VARIABLE)) {
 			throw new MustacheException("Unknown variable: " . $tag_name, MustacheException::UNKNOWN_VARIABLE);
 		} else {
 			return '';
 		}
 	}
+
 	/**
 	 * Retrieve the partial corresponding to the requested tag name.
 	 *
@@ -774,12 +864,14 @@ class Mustache {
 		if ((is_array($this->_partials) || $this->_partials instanceof ArrayAccess) && isset($this->_partials[$tag_name])) {
 			return $this->_partials[$tag_name];
 		}
+
 		if ($this->_throwsException(MustacheException::UNKNOWN_PARTIAL)) {
 			throw new MustacheException('Unknown partial: ' . $tag_name, MustacheException::UNKNOWN_PARTIAL);
 		} else {
 			return '';
 		}
 	}
+
 	/**
 	 * Check whether the given $var should be iterated (i.e. in a section context).
 	 *
@@ -790,6 +882,7 @@ class Mustache {
 	protected function _varIsIterable($var) {
 		return $var instanceof Traversable || (is_array($var) && !array_diff_key($var, array_keys(array_keys($var))));
 	}
+
 	/**
 	 * Higher order sections helper: tests whether the section $var is a valid callback.
 	 *
@@ -807,24 +900,32 @@ class Mustache {
 	  return !is_string($var) && is_callable($var);
 	}
 }
+
+
 /**
  * MustacheException class.
  *
  * @extends Exception
  */
 class MustacheException extends Exception {
+
 	// An UNKNOWN_VARIABLE exception is thrown when a {{variable}} is not found
 	// in the current context.
 	const UNKNOWN_VARIABLE         = 0;
+
 	// An UNCLOSED_SECTION exception is thrown when a {{#section}} is not closed.
 	const UNCLOSED_SECTION         = 1;
+
 	// An UNEXPECTED_CLOSE_SECTION exception is thrown when {{/section}} appears
 	// without a corresponding {{#section}} or {{^section}}.
 	const UNEXPECTED_CLOSE_SECTION = 2;
+
 	// An UNKNOWN_PARTIAL exception is thrown whenever a {{>partial}} tag appears
 	// with no associated partial.
 	const UNKNOWN_PARTIAL          = 3;
+
 	// An UNKNOWN_PRAGMA exception is thrown whenever a {{%PRAGMA}} tag appears
 	// which can't be handled by this Mustache instance.
 	const UNKNOWN_PRAGMA           = 4;
+
 }
