@@ -47,6 +47,10 @@ a{
 a:hover{
 	text-decoration: line-through;}
 
+.code a {
+	display:inline;
+}
+
 ul{
 	list-style-type: none;
 	margin:0;
