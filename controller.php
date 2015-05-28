@@ -25,7 +25,6 @@ try {
 $route = $_REQUEST['p'];
 
 $output_format = 'json';
-$requested_action = 'index';
 // look for '.html' and set output format to 'html' if found
 if (strpos($route,'.html') !== false) {
    $output_format = 'html';
@@ -45,6 +44,7 @@ if (strpos($route,'.php') !== false) {
 // explode route by '/' and determine what's being asked for
 $exploded_route = explode("/",$route);
 
+$requested_action = 'index';
 if (isset($exploded_route[2])) {
    if (count($exploded_route) > 1 && $exploded_route[2] == 'process.php') {
       $requested_action = 'edited';

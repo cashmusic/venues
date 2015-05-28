@@ -10,11 +10,11 @@ var dirs = window.location.pathname.substring(1);
       $('body').removeClass('loading');
       $('body').addClass('loaded');
       //run search
-      searchit();     
+      searchit();
     }, 2500);
   } else {
     $('body').addClass('loaded');
-    searchit();  
+    searchit();
   }
 
 /* Search Submit */
@@ -41,27 +41,51 @@ function searchit() {
 // If the field isn't empty do a search
   if ($("#keyword").val() != "" || dirs != "" ){
 
-     $('.results').removeClass('dice'); 
+     $('.results').removeClass('dice');
      $('.result').removeClass('show');
 
      //clear out old results
      $('.results .inner').empty();
 
 
-     if ($("#keyword").val() != ""){ 
-      var term = $('#keyword').val(); 
-     } 
-     else if (dirs != "") { 
-      var term = dirs; 
+     if ($("#keyword").val() != ""){
+      var term = $('#keyword').val();
+     }
+     else if (dirs != "") {
+      var term = dirs;
      }
 
       //getJSON
       $.getJSON( "/venues?q="+term, function( data ) {
-     
+
       if (data.results != ""){
         var items = [];
           $(data.results).each(function(index, item) {
-            $('.results .inner').append("<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><div class='address'><p>"+ item.address1 + "</p><p>" + item.address2 + "</p><p>" + item.city + "</p><p>" + item.region + "</p><p>" + item.postalcode + "</p><p>" + item.country + "</p></div><p class='website'><a target='_blank' href='" + item.url + "'>"+ item.url +"</a></p></p><p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>")
+            finalMarkup = "<div class='result' id='" + item.id + "'><a class='card' href='/venues/"+item.UUID+".html'><h1>" + item.name +"</h1><div class='address'>";
+            if (item.address1) {
+               finalMarkup += "<p>"+ item.address1 + "</p>";
+            }
+            if (item.address2) {
+               finalMarkup += "<p>" + item.address2 + "</p>";
+            }
+            if (item.city) {
+               finalMarkup += "<p>" + item.city + "</p>";
+            }
+            if (item.region) {
+               finalMarkup += "<p>" + item.region + "</p>";
+            }
+            if (item.postalcode) {
+               finalMarkup += "<p>" + item.postalcode + "</p>";
+            }
+            if (item.country) {
+               finalMarkup += "<p>" + item.country + "</p>";
+            }
+            finalMarkup += "</div>";
+            if (item.url) {
+               finalMarkup += "<p class='website'><a target='_blank' href='" + item.url + "'>"+ item.url +"</a></p>";
+            }
+            finalMarkup += "<p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>";
+            $('.results .inner').append(finalMarkup);
           });
 
         }else{
@@ -101,7 +125,7 @@ function searchit() {
         // process the form
     $('.edit-form').submit(function(event) {
         event.preventDefault();
-        
+
         // get the form data
         // there are many ways to get this data using jQuery (you can use the class or id also)
         var formData = {
@@ -131,7 +155,7 @@ function searchit() {
             // using the done promise callback
             .done(function(data) {
                 // log data to the console so we can see
-                //console.log(data); 
+                //console.log(data);
                 $('#card').toggleClass('flipped');
                 location.reload();
                 // here we will handle errors and validation messages
