@@ -13,7 +13,7 @@ $OAUTH_CALLBACK = 'localhost';
 
 
 
-require 'twitteroauth-master/autoload.php';
+require '/lib/twitteroauth/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 $token = $_REQUEST['oauth_token'];
