@@ -85,7 +85,7 @@ $(document).ready(function() {
                   }
                   finalMarkup += "</div>";
                   if (item.url) {
-                     finalMarkup += "<p class='website'><a target='_blank' href='" + item.url + "'>"+ item.url +"</a></p>";
+                     finalMarkup += "<p class='website'><a target='_blank' href='http://" + item.url + "'>"+ item.url +"</a></p>";
                   }
                   finalMarkup += "<p class='uuid'><span class='title'>UUID</span><span class='id'>" + item.UUID + "</span></p></a></div>";
                   $('.results .inner').append(finalMarkup);
