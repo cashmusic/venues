@@ -1,0 +1,12 @@
+{
+  "consumer_key": "GmfmWT73HaYtLsiY74Y4UA",
+  "consumer_secret": "R8JtsF9GHL6v78zg3E3TdL5GcmEfwJeGJwK29moTh0",
+  "oauth_callback": "http://localhost/callback.php",
+  "mysql": {
+    "host": "localhost",
+    "database": "cashvenues",
+    "username": "root",
+    "password": "root"
+  },
+  "twitter_names": ["iamkatygoodman", "jessevondoom", "leckieeeeeeeeee", "magicbeans"]
+}
