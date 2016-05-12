@@ -6,4 +6,6 @@ use Cashmusic\Venues;
 
 define("CASH_VENUE_ROOT", realpath(__DIR__ . '/..'));
 
-?><pre><?php $venues = new Venues\Controller(); ?></pre>
+$venues = new Venues\Controller();
+
+?><pre></pre>

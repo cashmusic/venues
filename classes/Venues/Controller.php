@@ -5,7 +5,8 @@ namespace Cashmusic\Venues;
 use PDO;
 
 class Controller {
-    private $settings, $pdo;
+    private $settings, $pdo, $route;
+    protected $format = "json";
 
     /**
      * Gets JSON config file and PDO connection on start
@@ -15,7 +16,24 @@ class Controller {
         // get connection details
         $this->settings = $this->getSettings();
         $this->getPDOConnection();
+        $this->setRoute();
 
+    }
+
+    /**
+     * Parses URL string to get what route is requested, and format to return
+     */
+    public function setRoute() {
+
+        if(preg_match("/(.html|.php)/i", $_REQUEST['p'])){
+            //one of these string found
+            $this->format = "html";
+        }
+
+        $this->route = str_replace(array(
+            ".html",
+            ".php"
+            ), "", $_REQUEST['p']);
     }
 
     /**
@@ -23,7 +41,7 @@ class Controller {
      *
      * @return mixed
      */
-    function getSettings() {
+    private function getSettings() {
 
         if (file_exists(CASH_VENUE_ROOT.'/config/config.json')) {
             try {
@@ -42,7 +60,7 @@ class Controller {
     /**
      * Not great PDO stuff, to start
      */
-    function getPDOConnection() {
+    private function getPDOConnection() {
         $pdo_settings = $this->settings['mysql'];
         if ( !empty($pdo_settings['username']) && !empty($pdo_settings['password']) ) {
 
