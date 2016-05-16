@@ -5,7 +5,9 @@ namespace Cashmusic\Venues;
 use PDO;
 
 class Controller {
-    private $settings, $pdo, $route;
+    private $settings, $pdo, $route, $uuid;
+    
+    protected $action = 'index';
     protected $format = "json";
 
     /**
@@ -15,8 +17,12 @@ class Controller {
     {
         // get connection details
         $this->settings = $this->getSettings();
+
+        // get the PDO connection, not the best implementation but it works for nwo
         $this->getPDOConnection();
-        $this->setRoute();
+
+        // route parsing for action, intended route, etc
+        $this->setRoute()->setAction();
 
     }
 
@@ -30,10 +36,45 @@ class Controller {
             $this->format = "html";
         }
 
-        $this->route = str_replace(array(
-            ".html",
-            ".php"
-            ), "", $_REQUEST['p']);
+        $this->route = $this->getURLIdentifier($_REQUEST['p']);
+
+        return $this;
+    }
+
+    public function setAction() {
+        // explode route by '/' and determine what's being asked for
+        $route = explode("/",$this->route);
+
+        $path = $route[0];
+        $identifier = $this->getURLIdentifier($route[1]) ? $this->getURLIdentifier($route[1]) : "";
+        $identifier_2 = $route[2] ? $route[2] : "";
+
+        if(preg_match("/(venue)/i", $path)){
+
+            // if identifier is empty we're in search mode
+            if (empty($identifier)) {
+                $this->action = 'search';
+            }
+
+            // if identifier is numeric then we're doing GET venue id stuff
+            if (is_numeric($identifier)) {
+                $this->action = 'details';
+                $this->uuid = $identifier;
+            }
+            // if identifier is not numeric then we're editing
+            if (!is_numeric($identifier) && !empty($identifier)) {
+                $this->action = 'edit';
+                $this->uuid = $identifier_2;
+            }
+
+            // lastly if POST is set then we're in "edited" mode
+            if (!empty($_POST['UUID'])) {
+                $this->action = 'edited';
+                $this->uuid = $_POST['UUID'];
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -76,6 +117,13 @@ class Controller {
                 exit;
             }
         }
+    }
+
+    private function getURLIdentifier($value) {
+        return str_replace(array(
+            ".html",
+            ".php"
+        ), "", $value);
     }
 }
 
