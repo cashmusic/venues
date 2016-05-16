@@ -5,7 +5,7 @@ namespace Cashmusic\Venues;
 use PDO;
 
 class Controller {
-    private $settings, $pdo, $route, $uuid;
+    private $settings, $pdo, $route, $parameter;
     
     protected $action = 'index';
     protected $format = "json";
@@ -22,56 +22,71 @@ class Controller {
         $this->getPDOConnection();
 
         // route parsing for action, intended route, etc
-        $this->setRoute()->setAction();
+        $this->setFormat()->setAction()->handleRoute();
 
     }
 
     /**
      * Parses URL string to get what route is requested, and format to return
      */
-    public function setRoute() {
+    public function setFormat() {
 
-        if(preg_match("/(.html|.php)/i", $_REQUEST['p'])){
+        if(preg_match("/(.html|.php)/i", $_SERVER['REQUEST_URI'])){
             //one of these string found
             $this->format = "html";
         }
 
-        $this->route = $this->getURLIdentifier($_REQUEST['p']);
+        return $this;
+    }
+
+
+    /**
+     * Set action and identifier based on string matches in the request URI.
+     *
+     * @return $this
+     */
+    public function setAction() {
+        // explode route by '/' and determine what's being asked for
+        $path = "";
+        if (!empty($_REQUEST['path'])) {
+            $path = $_REQUEST['path'];
+        }
+
+        $parameter = "";
+        if (!empty($_REQUEST['parameter'])) {
+            $parameter = $this->getVenueParameter($_REQUEST['parameter']) ? $this->getVenueParameter($_REQUEST['parameter']) : "";
+        }
+
+        if($path == "venues"){
+            $this->action = 'search';
+            $this->parameter = $parameter;
+        }
+
+        if($path == "venue"){
+            $this->action = 'details';
+            $this->parameter = $parameter;
+        }
 
         return $this;
     }
 
-    public function setAction() {
-        // explode route by '/' and determine what's being asked for
-        $route = explode("/",$this->route);
+    public function handleRoute() {
+        switch ($this->action) {
+            case "search":
+                echo "search";
+                break;
 
-        $path = $route[0];
-        $identifier = $this->getURLIdentifier($route[1]) ? $this->getURLIdentifier($route[1]) : "";
-        $identifier_2 = $route[2] ? $route[2] : "";
+            case "details":
+                echo "details";
+                break;
 
-        if(preg_match("/(venue)/i", $path)){
+            case "index":
+                echo "index";
+                break;
 
-            // if identifier is empty we're in search mode
-            if (empty($identifier)) {
-                $this->action = 'search';
-            }
+            default:
+                echo "indexdefault";
 
-            // if identifier is numeric then we're doing GET venue id stuff
-            if (is_numeric($identifier)) {
-                $this->action = 'details';
-                $this->uuid = $identifier;
-            }
-            // if identifier is not numeric then we're editing
-            if (!is_numeric($identifier) && !empty($identifier)) {
-                $this->action = 'edit';
-                $this->uuid = $identifier_2;
-            }
-
-            // lastly if POST is set then we're in "edited" mode
-            if (!empty($_POST['UUID'])) {
-                $this->action = 'edited';
-                $this->uuid = $_POST['UUID'];
-            }
         }
 
         return $this;
@@ -119,11 +134,59 @@ class Controller {
         }
     }
 
-    private function getURLIdentifier($value) {
+    private function getVenueParameter($value) {
         return str_replace(array(
             ".html",
             ".php"
         ), "", $value);
+    }
+
+    private function searchVenues() {
+        $name = $_REQUEST['q']; // the search term
+
+        if(isset($name)) {
+            // gets all venues with the search term in the name somewhere
+            try {
+                $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE :query ORDER BY name ASC");
+                $searcharray->execute(array(':query' => '%'.$name.'%'));
+            } catch(Exception $e) {
+                echo $e->getMessage();
+                exit;
+            }
+            $search = $searcharray->fetchALL(PDO::FETCH_ASSOC);
+            $search_results = array("results" => $search, "name" => $name);
+
+            // output content to browser
+            outputContent($search_results,$output_format,'search');
+        }
+    }
+
+    private function getVenueDetails() {
+
+        // load venue with matching UUID, this info is on the specific venue details page
+        try {
+            $venuearray = $db->prepare('SELECT * FROM venues WHERE UUID = ?');
+            $venuearray->bindParam(1, $UUID);
+            $venuearray->execute();
+
+        } catch(Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+        $venue = $venuearray->fetch(PDO::FETCH_ASSOC);
+        if ($venue) {
+            // output content to browser
+            if ($venue['creationdate']) {
+                $venue['creationdate'] = date("F j, Y",$venue['creationdate']);
+            }
+            if ($venue['modificationdate']) {
+                $venue['modificationdate'] = date("F j, Y",$venue['modificationdate']);
+            }
+            outputContent($venue,$output_format,'venue');
+        } else {
+            // stuff didn't work!
+            echo "  404 not found!";
+        }
     }
 }
 

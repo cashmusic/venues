@@ -1,11 +1,7 @@
 <?php
-session_start();
-require '../vendor/autoload.php';
+require_once('../includes/bootstrap.php');
 
 use Cashmusic\Venues;
-
-define("CASH_VENUE_ROOT", realpath(__DIR__ . '/..'));
-
 $venues = new Venues\Controller();
 
-?><pre></pre>
+?>
