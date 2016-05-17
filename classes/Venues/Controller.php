@@ -196,6 +196,7 @@ class Controller {
     }
 
     private function getIndex() {
+        $this->format = "html";
         $this->results = array();
         return $this;
     }
