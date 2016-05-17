@@ -7,7 +7,9 @@
             "email": "info@cashmusic.org"
         }
     ],
-    "require": {},
+    "require": {
+        "mustache/mustache": "^2.10"
+    },
     "autoload": {
         "psr-4": {
             "Cashmusic\\":"classes"

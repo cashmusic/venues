@@ -1,5 +1,5 @@
-<pre><?php
+<?php
     require_once('../includes/bootstrap.php');
 
     use Cashmusic\Venues;
-    $venues = new Venues\Controller(); ?></pre>
+    $venues = new Venues\Controller(); ?>

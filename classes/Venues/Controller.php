@@ -6,7 +6,7 @@ use PDO;
 
 class Controller {
     private $settings, $pdo, $parameter, $results;
-    
+    private $debug = false;
     protected $action = 'index';
     protected $format = "json";
 
@@ -23,7 +23,6 @@ class Controller {
 
         // route parsing for action, intended route, etc
         $this->setFormat()->setAction()->handleRoute();
-
     }
 
     /**
@@ -77,15 +76,15 @@ class Controller {
                 break;
 
             case "details":
-                echo "details";
+                $this->getVenueDetails()->renderView();
                 break;
 
             case "index":
-                echo "index";
+                $this->getIndex()->renderView();
                 break;
 
             default:
-                echo "indexdefault";
+                $this->getIndex()->renderView();
 
         }
 
@@ -158,7 +157,6 @@ class Controller {
                 "results" => $search->fetchALL(PDO::FETCH_ASSOC),
                 "name" => $name
             );
-
         }
 
         return $this;
@@ -168,33 +166,64 @@ class Controller {
 
         // load venue with matching UUID, this info is on the specific venue details page
         try {
-            $venuearray = $db->prepare('SELECT * FROM venues WHERE UUID = ?');
-            $venuearray->bindParam(1, $UUID);
-            $venuearray->execute();
+            $venue_details = $this->pdo->prepare('SELECT * FROM venues WHERE UUID = ?');
+            $venue_details->bindParam(1, $this->parameter);
+            $venue_details->execute();
 
         } catch(Exception $e) {
             echo $e->getMessage();
             exit;
         }
-        $venue = $venuearray->fetch(PDO::FETCH_ASSOC);
+        $venue = $venue_details->fetch(PDO::FETCH_ASSOC);
+
         if ($venue) {
             // output content to browser
             if ($venue['creationdate']) {
-                $venue['creationdate'] = date("F j, Y",$venue['creationdate']);
+                $venue['creationdate'] = date("F j, Y", strtotime($venue['creationdate']) );
             }
             if ($venue['modificationdate']) {
-                $venue['modificationdate'] = date("F j, Y",$venue['modificationdate']);
+                $venue['modificationdate'] = date("F j, Y", strtotime($venue['modificationdate']));
             }
-            outputContent($venue,$output_format,'venue');
+
+            $this->results = $venue;
+
+            return $this;
+
         } else {
             // stuff didn't work!
             echo "  404 not found!";
         }
     }
 
-    private function renderView() {
+    private function getIndex() {
+        $this->results = array();
+        return $this;
+    }
 
-        var_dump($this->results);
+    /**
+     * Render mustache template for this view, or return JSON
+     *
+     * @param string|bool $template
+     * @return $this
+     */
+    private function renderView($template=false) {
+        if ($this->format == 'json') {
+            header("Access-Control-Allow-Origin: *");
+            header('Content-type:application/json');
+            echo json_encode($this->results);
+        }
+
+        if ($this->format == 'html') {
+            header('Content-type:text/html; charset=utf-8');
+
+            $renderer = new \Mustache_Engine(array(
+                'loader' => new \Mustache_Loader_FilesystemLoader(CASH_VENUE_ROOT . '/views'),
+            ));
+            echo $renderer->render($this->action, $this->results);
+
+        }
+
+        return $this;
     }
 }
 
