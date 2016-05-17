@@ -5,7 +5,7 @@ namespace Cashmusic\Venues;
 use PDO;
 
 class Controller {
-    private $settings, $pdo, $route, $parameter;
+    private $settings, $pdo, $parameter, $results;
     
     protected $action = 'index';
     protected $format = "json";
@@ -73,7 +73,7 @@ class Controller {
     public function handleRoute() {
         switch ($this->action) {
             case "search":
-                echo "search";
+                $this->searchVenues()->renderView();
                 break;
 
             case "details":
@@ -142,23 +142,26 @@ class Controller {
     }
 
     private function searchVenues() {
-        $name = $_REQUEST['q']; // the search term
+        $name = urldecode($this->parameter); // the search term
 
         if(isset($name)) {
             // gets all venues with the search term in the name somewhere
             try {
-                $searcharray = $db->prepare("SELECT * FROM venues WHERE name LIKE :query ORDER BY name ASC");
-                $searcharray->execute(array(':query' => '%'.$name.'%'));
+                $search = $this->pdo->prepare("SELECT * FROM venues WHERE name LIKE :query ORDER BY name ASC");
+                $search->execute(array(':query' => '%'.$name.'%'));
             } catch(Exception $e) {
                 echo $e->getMessage();
                 exit;
             }
-            $search = $searcharray->fetchALL(PDO::FETCH_ASSOC);
-            $search_results = array("results" => $search, "name" => $name);
 
-            // output content to browser
-            outputContent($search_results,$output_format,'search');
+            $this->results = array(
+                "results" => $search->fetchALL(PDO::FETCH_ASSOC),
+                "name" => $name
+            );
+
         }
+
+        return $this;
     }
 
     private function getVenueDetails() {
@@ -187,6 +190,11 @@ class Controller {
             // stuff didn't work!
             echo "  404 not found!";
         }
+    }
+
+    private function renderView() {
+
+        var_dump($this->results);
     }
 }
 
