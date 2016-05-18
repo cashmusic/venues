@@ -2,13 +2,11 @@
 
 namespace Cashmusic\Venues;
 
-use PDO;
-
 class Controller {
-    private $settings, $pdo, $parameter, $results;
-    private $debug = false;
     protected $action = 'index';
     protected $format = "json";
+    private $settings, $db, $parameter, $results;
+    private $debug = false;
 
     /**
      * Gets JSON config file and PDO connection on start
@@ -18,26 +16,46 @@ class Controller {
         // get connection details
         $this->settings = $this->getSettings();
 
-        // get the PDO connection, not the best implementation but it works for nwo
-        $this->getPDOConnection();
+        // get the PDO connection
+        $this->getDatabaseConnection();
 
         // route parsing for action, intended route, etc
         $this->setFormat()->setAction()->handleRoute();
     }
 
     /**
-     * Parses URL string to get what route is requested, and format to return
+     * Get contents of config/config.json or fail
+     * @return mixed
      */
-    public function setFormat() {
+    private function getSettings() {
 
-        if(preg_match("/(.html|.php)/i", $_SERVER['REQUEST_URI'])){
-            //one of these string found
-            $this->format = "html";
+        if (file_exists(CASH_VENUE_ROOT.'/config/config.json')) {
+            try {
+                $settings = json_decode(file_get_contents(CASH_VENUE_ROOT.'/config/config.json'),true);
+            } catch (\Exception $e) {
+                echo "Error reading the config.json file. (".$e->getMessage().")";
+            }
+
+            return $settings;
         }
 
-        return $this;
+        echo "Couldn't find a config.json file.";
+
     }
 
+    /**
+     * Setup the DB wrapper with the settings we got from the JSON
+     */
+    private function getDatabaseConnection() {
+        $pdo_settings = $this->settings['mysql'];
+
+        try {
+            $this->db = new DatabaseWrapper($pdo_settings, "mysql");
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
 
     /**
      * Set action and identifier based on string matches in the request URI.
@@ -53,7 +71,7 @@ class Controller {
 
         $parameter = "";
         if (!empty($_REQUEST['parameter'])) {
-            $parameter = $this->getVenueParameter($_REQUEST['parameter']) ? $this->getVenueParameter($_REQUEST['parameter']) : "";
+            $parameter = $this->getParameter($_REQUEST['parameter']) ? $this->getParameter($_REQUEST['parameter']) : "";
         }
 
         if($path == "venues"){
@@ -69,6 +87,36 @@ class Controller {
         return $this;
     }
 
+    /**
+     * Get venue ID or search parameter from URL, without the file ending
+     * @param $value
+     * @return string
+     */
+    private function getParameter($value) {
+        return str_replace(array(
+            ".html",
+            ".php"
+        ), "", $value);
+    }
+
+    /**
+     * Parses URL string to get what route is requested, and format to return
+     * @return $this
+     */
+    public function setFormat() {
+
+        if(preg_match("/(.html|.php)/i", $_SERVER['REQUEST_URI'])){
+            //one of these string found
+            $this->format = "html";
+        }
+
+        return $this;
+    }
+
+    /**
+     * The actual route controller method
+     * @return $this
+     */
     public function handleRoute() {
         switch ($this->action) {
             case "search":
@@ -88,116 +136,6 @@ class Controller {
 
         }
 
-        return $this;
-    }
-
-    /**
-     * Get contents of config/config.json or fail
-     *
-     * @return mixed
-     */
-    private function getSettings() {
-
-        if (file_exists(CASH_VENUE_ROOT.'/config/config.json')) {
-            try {
-                $settings = json_decode(file_get_contents(CASH_VENUE_ROOT.'/config/config.json'),true);
-            } catch (\Exception $e) {
-                echo "Error reading the config.json file.";
-            }
-
-            return $settings;
-        }
-
-        echo "Couldn't find a config.json file.";
-
-    }
-
-    /**
-     * Not great PDO stuff, to start
-     */
-    private function getPDOConnection() {
-        $pdo_settings = $this->settings['mysql'];
-        if ( !empty($pdo_settings['username']) && !empty($pdo_settings['password']) ) {
-
-            // build the connection string
-            $pdo_connection = "mysql:host=" . $pdo_settings['host'] . ";dbname=" . $pdo_settings['database'];
-
-            //TODO: needs to be better exception handling here
-            try {
-                $this->pdo = new PDO($pdo_connection, $pdo_settings['username'], $pdo_settings['password']);
-                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                exit;
-            }
-        }
-    }
-
-    private function getVenueParameter($value) {
-        return str_replace(array(
-            ".html",
-            ".php"
-        ), "", $value);
-    }
-
-    private function searchVenues() {
-        $name = urldecode($this->parameter); // the search term
-
-        if(isset($name)) {
-            // gets all venues with the search term in the name somewhere
-            try {
-                $search = $this->pdo->prepare("SELECT * FROM venues WHERE name LIKE :query ORDER BY name ASC");
-                $search->execute(array(':query' => '%'.$name.'%'));
-            } catch(Exception $e) {
-                echo $e->getMessage();
-                exit;
-            }
-
-            $this->results = array(
-                "results" => $search->fetchALL(PDO::FETCH_ASSOC),
-                "name" => $name
-            );
-        }
-
-        return $this;
-    }
-
-    private function getVenueDetails() {
-
-        // load venue with matching UUID, this info is on the specific venue details page
-        try {
-            $venue_details = $this->pdo->prepare('SELECT * FROM venues WHERE UUID = ?');
-            $venue_details->bindParam(1, $this->parameter);
-            $venue_details->execute();
-
-        } catch(Exception $e) {
-            echo $e->getMessage();
-            exit;
-        }
-        $venue = $venue_details->fetch(PDO::FETCH_ASSOC);
-
-        if ($venue) {
-            // output content to browser
-            if ($venue['creationdate']) {
-                $venue['creationdate'] = date("F j, Y", strtotime($venue['creationdate']) );
-            }
-            if ($venue['modificationdate']) {
-                $venue['modificationdate'] = date("F j, Y", strtotime($venue['modificationdate']));
-            }
-
-            $this->results = $venue;
-
-            return $this;
-
-        } else {
-            // stuff didn't work!
-            echo "  404 not found!";
-        }
-    }
-
-    private function getIndex() {
-        $this->format = "html";
-        $this->results = array();
         return $this;
     }
 
@@ -226,6 +164,76 @@ class Controller {
 
         return $this;
     }
+
+    /**
+     * Get array of search results based on $this->parameter query
+     * @return $this
+     */
+    private function searchVenues() {
+        $name = urldecode($this->parameter); // the search term
+
+        if(isset($name)) {
+            // gets all venues with the search term in the name somewhere
+
+            $search = $this->db->query("SELECT * FROM venues WHERE name LIKE :query ORDER BY name ASC", array(':query' => '%'.$name.'%'));
+
+            $this->results = array(
+                "results" => $search,
+                "name" => $name
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get venue details based on uuid pulled from $this->parameter
+     * @return $this
+     */
+    private function getVenueDetails() {
+
+        // load venue with matching UUID, this info is on the specific venue details page
+        $venue_details = $this->db->query("SELECT * FROM venues WHERE UUID = :uuid LIMIT 1", array(':uuid' => $this->parameter));
+        $venue = $venue_details[0];
+
+        if ($venue) {
+            // output content to browser
+            if ($venue['creationdate']) {
+                $venue['creationdate'] = $this->prettifyDate($venue['creationdate']);
+            }
+            if ($venue['modificationdate']) {
+                $venue['modificationdate'] = $this->prettifyDate($venue['creationdate']);
+            }
+
+            $this->results = $venue;
+
+            return $this;
+
+        } else {
+            // stuff didn't work!
+            echo "  404 not found!";
+        }
+    }
+
+    /**
+     * Formats date strings for humans
+     * @param $date
+     * @return bool|string
+     */
+    private function prettifyDate($date) {
+        return date("F j, Y", strtotime($date));
+    }
+
+    /**
+     * Show index page
+     * @return $this
+     */
+    private function getIndex() {
+        $this->format = "html";
+        $this->results = array();
+        return $this;
+    }
+
 }
 
 ?>
