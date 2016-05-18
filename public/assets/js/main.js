@@ -10,7 +10,8 @@ $(document).ready(function() {
    /* Inputting Text */
    var keystroketimer = false;
    $('#keyword').on('input', function() {
-      //history.pushState(1, null, $(this).val());
+      var url_state = "/venues/"+encodeURIComponent($(this).val())+".html";
+      history.pushState(1, null, url_state);
       if ($(this).val().length >= 3) {
          keystroketimer = setTimeout(function() {
             searchit();
