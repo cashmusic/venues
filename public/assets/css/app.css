@@ -720,3 +720,7 @@ body.loaded.venue{
 	float: right;
 	margin:9px 0;
 }
+
+.hidden {
+	display: none;
+}

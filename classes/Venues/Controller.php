@@ -205,6 +205,10 @@ class Controller {
                 $venue['modificationdate'] = $this->prettifyDate($venue['creationdate']);
             }
 
+            // encoding this onto the $venue array so we don't do it with AJAX on the template
+            $json_encoded_values = json_encode($venue);
+            $venue['api_response'] = $json_encoded_values;
+
             $this->results = $venue;
 
             return $this;

@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-
-<html>
-	<head>
-		<title>Search: {{ name }}</title>
-			<link rel="stylesheet" type="text/css" href="/assets/css/app.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="/autocomplete.js"></script>
-		<link rel="stylesheet" href="/style.css">
-	</head>
-
-	<body>
+{{> header }}
 
 	<h1>Search for: {{name}}</h1>
 
-	<ul>
-		{{#results}}
-			<li>{{#name}}{{#UUID}}<p><a href="/venue/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
-		{{/results}}
-		{{^results}}
-			<p>No results.</p>
-		{{/results}}
-	</ul>
 
-	</body>
-</html>
+
+<section class="results display">
+    <div class="inner">	<ul>
+        {{#results}}
+            <li>{{#name}}{{#UUID}}<p><a href="/venue/{{UUID}}.html">{{/UUID}}{{ name }}{{#UUID}}</a>{{/UUID}}</p>{{/name}}</li>
+        {{/results}}
+        {{^results}}
+            <p>No results.</p>
+        {{/results}}
+    </ul></div><!--inner-->
+    <div class='rollin hidden'><h1>Sorry, No dice</h1></div><!--dice-->
+</section>
+
+{{> footer }}
