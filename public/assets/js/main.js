@@ -10,7 +10,7 @@ $(document).ready(function() {
    /* Inputting Text */
    var keystroketimer = false;
    $('#keyword').on('input', function() {
-      history.pushState(1, null, $(this).val());
+      //history.pushState(1, null, $(this).val());
       if ($(this).val().length >= 3) {
          keystroketimer = setTimeout(function() {
             searchit();
