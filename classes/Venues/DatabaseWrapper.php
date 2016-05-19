@@ -11,12 +11,12 @@ class DatabaseWrapper
 {
     public $db, $error;
 
-    function __construct($pdo_settings, $connection_type)
+    function __construct($pdo_settings)
     {
         if ( !empty($pdo_settings['username']) && !empty($pdo_settings['password']) ) {
 
             // build the connection string
-            $pdo_connection = "$connection_type:host=" . $pdo_settings['host'] . ";dbname=" . $pdo_settings['database'];
+            $pdo_connection = $pdo_settings['driver'].":host=" . $pdo_settings['host'] . ";dbname=" . $pdo_settings['database'];
 
             // create the connection to pass back to the host class
             try {

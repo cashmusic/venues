@@ -8,7 +8,8 @@
         }
     ],
     "require": {
-        "mustache/mustache": "^2.10"
+        "mustache/mustache": "^2.10",
+        "simpletest/simpletest": "^1.1"
     },
     "autoload": {
         "psr-4": {

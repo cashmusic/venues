@@ -3,10 +3,11 @@
 namespace Cashmusic\Venues;
 
 class Controller {
-    protected $action = 'index';
-    protected $format = "json";
-    private $settings, $db, $parameter, $results;
-    private $debug = false;
+    public $action = 'index';
+    public $format = "json";
+    public $parameter, $results;
+    protected $settings, $db;
+    public $debug = false;
 
     /**
      * Gets JSON config file and PDO connection on start
@@ -15,6 +16,7 @@ class Controller {
     {
         // get connection details
         $this->settings = $this->getSettings();
+        $this->debug = $this->settings['debug'];
 
         // get the PDO connection
         $this->getDatabaseConnection();
@@ -47,10 +49,15 @@ class Controller {
      * Setup the DB wrapper with the settings we got from the JSON
      */
     private function getDatabaseConnection() {
-        $pdo_settings = $this->settings['mysql'];
+        if (!$this->debug) {
+            $pdo_settings = $this->settings['database'];
+        } else {
+            $pdo_settings = $this->settings['debug_database'];
+        }
+
 
         try {
-            $this->db = new DatabaseWrapper($pdo_settings, "mysql");
+            $this->db = new DatabaseWrapper($pdo_settings);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

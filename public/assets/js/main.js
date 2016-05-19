@@ -90,6 +90,7 @@ $(document).ready(function() {
 
       if ($(this).val().length < 3) {
          var url_state = "";
+         window.history.replaceState([], null, "/");
       }
 
       history.pushState(1, null, url_state);
