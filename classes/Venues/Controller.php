@@ -74,12 +74,15 @@ class Controller {
             $parameter = $this->getParameter($_REQUEST['parameter']) ? $this->getParameter($_REQUEST['parameter']) : "";
         }
 
-        if($path == "venues"){
+        if ($path == "venues"){
             $this->action = 'search';
             $this->parameter = $parameter;
+
+            // we should abort this route if the search parameter is less than three characters long.
+            if (strlen($this->parameter) < 3) header("Location: /");
         }
 
-        if($path == "venue"){
+        if ($path == "venue"){
             $this->action = 'details';
             $this->parameter = $parameter;
         }
