@@ -243,6 +243,7 @@ ul {
     -webkit-transition: 0.3s right ease-in-out;
     -moz-transition: 0.3s right ease-in-out;
     transition: 0.3s right ease-in-out;
+    z-index:9999;
 }
 
 .display .results {
@@ -265,6 +266,9 @@ ul {
     -webkit-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
     -moz-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
     transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -webkit-box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
+    -moz-box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
+    box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
 }
 
 .result h1 {
@@ -603,14 +607,14 @@ footer {
     margin: 0;
     padding: 0;
     font-size: 12px;
-    width: 45%;
-    text-align: left;
+    width: 100%;
+    text-align: center;
     opacity: 0;
     text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
 .venue footer {
-    width: 80%;
+   /* width: 80%;*/
 }
 
 .loaded footer {
