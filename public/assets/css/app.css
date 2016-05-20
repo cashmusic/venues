@@ -169,7 +169,7 @@ ul {
     color: #666;
     font-size: 14px;
     border: none;
-    padding: 20px 20px 20px 60px;
+    padding: 20px 20px 20px 7%;
     width: 100%;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -181,6 +181,20 @@ ul {
     -moz-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
     opacity: 0;
+}
+
+@media (max-width: 800px) {
+    #search input {
+        background-position: 15px 50%;
+        padding-left: 50px;
+        background-size: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    #search input {
+        background-size: 20px;
+    }
 }
 
 .loaded #search input {
