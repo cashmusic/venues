@@ -1,0 +1,35 @@
+{{> header }}
+<div class="entry-container">
+	<div id="card">
+		<div class="front">
+			{{#name}}<h1>{{name}}</h1>{{/name}}
+			<div class="inner">
+				{{#address1}}<p>{{address1}}</p>{{/address1}}
+				{{#address2}}<p>{{address2}}</p>{{/address2}}
+				{{#city}}<p>{{city}}</p>{{/city}}
+				{{#region}}<p>{{region}}</p>{{/region}}
+				{{#country}}<p>{{country}}</p>{{/country}}
+				{{#postalcode}}<p>{{postalcode}}</p>{{/postalcode}}
+				{{#phone}}<p class="phone">{{phone}}</p>{{/phone}}
+			</div><!--inner-->
+			{{#url}}<p class="website">Website: <a href="http://{{url}}" target="_blank">{{url}}</a></p>{{/url}}
+			{{#latitude}}
+			<div class="location">
+				Location:
+				{{#latitude}}<p>Latitude: <strong>{{latitude}}</strong></p>{{/latitude}}
+				{{#longitude}}<p>Longitude: <strong>{{longitude}}</strong></p>{{/longitude}}
+				<a target="_blank" href="http://maps.google.com/maps?q={{latitude}},{{longitude}}&z=10">View map</a>
+			</div><!--location-->{{/latitude}}
+			{{#creationdate}}<p>Creation Date: {{creationdate}}</p>{{/creationdate}}
+			{{#modificationdate}}<p>Modification Date: {{modificationdate}}</p>{{/modificationdate}}
+			{{#UUID}}<p class='uuid'><span class='title'>UUID</span><span class='id'>{{UUID}}</span></p>
+			<p class="code">
+				<strong>API Endpoint: </strong><a href="/venue/{{UUID}}">/venue/{{UUID}}</a><br />
+				<strong>API Response: </strong> {{ api_response }}
+			</p>{{/UUID}}
+
+		</div><!--front-->
+	</div><!--card-->
+</div><!--entry-container-->
+
+{{> footer }}

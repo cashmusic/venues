@@ -1,4 +1,4 @@
-# Bobo Venue Database
+# CASH Music Venue Database
 The goal of this project is to create an open data portal for music venue information. This means
 we'll serve human and machine readable information free for all to use and distribute. All data 
 will be available under a Creative Commons CC0 declaration, making it public domain.

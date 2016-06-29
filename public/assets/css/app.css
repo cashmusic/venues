@@ -1,0 +1,746 @@
+html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+html, body {
+    background: #eee;
+    color: #222;
+    font-family: 'Montserrat', 'helvetica', arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-wrap: break-word;
+}
+
+body.loading {
+    opacity: 1;
+    height: 100%;
+    background: url('https://static-cashmusic.netdna-ssl.com/venues/img/load.gif');
+    background-repeat: no-repeat;
+    background-size: 5%;
+    background-position: 50% 50%;
+}
+
+body.loaded {
+    background: none;
+    height: 100%;
+}
+
+a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+}
+
+a:hover {
+    text-decoration: line-through;
+}
+
+.code a {
+    display: inline;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.loading {
+    opacity: 0;
+}
+
+.loaded {
+    opacity: 1;
+}
+
+.logo {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 30px;
+    padding: 0;
+    opacity: 0;
+    -webkit-filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.9));
+    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.9));
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+.loaded .logo {
+    opacity: 1;
+}
+
+.logo svg {
+    width: 60px;
+    height: 60px;
+    fill: #fff;
+    opacity: 0;
+}
+
+.loaded .logo svg {
+    opacity: 1;
+}
+
+.logo:hover {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+}
+
+.logo span, .logo a {
+    display: inline-block;
+}
+
+.logo span {
+    color: #fff;
+    margin: -38px 0 0 10px;
+    padding: 0;
+    vertical-align: middle;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.loading #search {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loaded #search {
+    background: #e3e3e3 url('https://static-cashmusic.netdna-ssl.com/venues/img/background.jpg');
+    background-width: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#search {
+    position: fixed;
+    width: 100%;
+    padding: 0;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 100%;
+    -webkit-transition: 0.3s width, 0.3s opacity ease-in-out;
+    -moz-transition: 0.3s width, 0.3s opacity ease-in-out;
+    transition: 0.3s width, 0.3s opacity ease-in-out;
+}
+
+.display #search {
+    width: 50%;
+}
+
+#search form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -36px 0 0 -30%;
+    height: 60px;
+    width: 60%;
+    overflow: hidden;
+}
+
+#search input {
+    background-color: #f5f5f5;
+    background-image: url('https://static-cashmusic.netdna-ssl.com/venues/img/search.svg');
+    background-position: 2.2% 50%;
+    background-repeat: no-repeat;
+    background-size: 3%;
+    font-family: 'Montserrat', 'helvetica', arial, sans-serif;
+    display: inline-block;
+    color: #666;
+    font-size: 14px;
+    border: none;
+    padding: 20px 20px 20px 7%;
+    width: 100%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    opacity: 0;
+}
+
+@media (max-width: 800px) {
+    #search input {
+        background-position: 15px 50%;
+        padding-left: 50px;
+        background-size: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    #search input {
+        background-size: 20px;
+    }
+}
+
+.loaded #search input {
+    opacity: 1;
+}
+
+#search input:active, #search input:focus {
+    background-color: #fff;
+    background-image: url('https://static-cashmusic.netdna-ssl.com/venues/img/search.svg');
+    background-position: 2.2% 50%;
+    background-repeat: no-repeat;
+    background-size: 3%;
+    outline: none;
+    -webkit-transition: 0.3s background-color ease-in-out;
+    -moz-transition: 0.3s background-color ease-in-out;
+    transition: 0.3s background-color ease-in-out;
+}
+
+.display #search input {
+    background-color: #f5f5f5;
+    background-image: url('https://static-cashmusic.netdna-ssl.com/venues/img/search.svg');
+    background-position: 5% 50%;
+    background-repeat: no-repeat;
+    background-size: 5%;
+    padding: 20px 20px 20px 50px;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+#search input[type="submit"] {
+    padding: 30px;
+    display: inline-block;
+}
+
+.results {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 50%;
+    height: 100%;
+    /*background:#e3e3e3;*/
+    /*background:rgba(227,227,227,0.9);*/
+    padding: 30px;
+    overflow: auto;
+    -webkit-transition: 0.3s right ease-in-out;
+    -moz-transition: 0.3s right ease-in-out;
+    transition: 0.3s right ease-in-out;
+    z-index:9999;
+}
+
+.display .results {
+    right: 0%;
+}
+
+.results .inner {
+    padding: 0;
+    margin: 0;
+}
+
+.result {
+    width: 80%;
+    margin: 0 auto 10px auto;
+    opacity: 0;
+    visibility: hidden;
+    background: #eee;
+    padding: 10px;
+    text-align: left;
+    -webkit-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -moz-transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -webkit-box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
+    -moz-box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
+    box-shadow: -7px 2px 7px -7px rgba(0,0,0,1);
+}
+
+.result h1 {
+    margin: 0 0 1px 0;
+    padding: 0 10px;
+    background: #fff;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.result p {
+    padding: 0;
+    margin: 0;
+}
+
+.result .address {
+    padding: 10px;
+    margin: 0 0 1px 0;
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.result .website {
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: 0 0 5px 0;
+    background: #fff;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+.result .website:hover {
+    opacity: 0.6;
+}
+
+.result p span {
+    display: block;
+    background: none;
+    padding: 0;
+    border: none;
+}
+
+.uuid {
+    display: block;
+    background: #ddd;
+    padding: 0 !important;
+    margin: 5px 0 0 0;
+    word-break: break-all;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.uuid .title {
+    display: inline-block;
+    background: #ccc;
+    color: #999;
+    padding: 10px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.uuid .id {
+    display: inline-block;
+    padding: 10px;
+    word-wrap: break-word;
+}
+
+.result.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.result:hover {
+    /*background:#ccc;*/
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    /*-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);*/
+    /*background:none;*/
+}
+
+.result:hover a {
+    text-decoration: none;
+}
+
+#card .front a {
+    text-decoration: underline;
+}
+
+#card .front a:hover {
+    text-decoration: underline;
+    opacity: 0.6;
+}
+
+.entry-container {
+    width: 500px;
+    height: 500px;
+    padding: 0px;
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -250px 0 0 -250px;
+    perspective: 1100px;
+    -webkit-perspective: 1100px;
+}
+
+#card {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: relative;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+#card .front, #card .back {
+    margin: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    width: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#card .front h1 {
+    margin: 0 0 1px 0;
+    background: #fff;
+    padding: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#card .front .inner {
+    background: #fff;
+    padding: 10px;
+    margin: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: relative;
+}
+
+#card .front .inner p {
+    padding: 0;
+    margin: 0;
+}
+
+#card .front .inner a {
+    margin: 0;
+}
+
+#card .front .inner .phone {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#card .front .code {
+    background: #ccc;
+    padding: 10px;
+    margin: 5px 0 0 0;
+    color: #666;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#card .back {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    text-align: center;
+    background: #222;
+    color: #f5f5f5;
+    height: 100%;
+    text-decoration: none;
+}
+
+#card.flipped {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+}
+
+#card .front {
+    background: #eee;
+    z-index: -1;
+}
+
+#card .back {
+    z-index: 3;
+}
+
+/* Page Action */
+
+.actions {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 30px 30px 0 0;
+    z-index: 3;
+    opacity: 0;
+}
+
+.loaded .actions {
+    opacity: 1;
+}
+
+.action {
+    display: inline-block;
+    color: #fff;
+    border: solid 1px #fff;
+    border-radius: 3px;
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 14px;
+    -webkit-transition: 0.3s right ease-in-out;
+    -moz-transition: 0.3s right ease-in-out;
+    transition: 0.3s right ease-in-out;
+}
+
+.action:hover {
+    text-decoration: none;
+    background: #fff;
+    color: #666;
+    cursor: pointer;
+}
+
+.display .actions {
+    right: 50%;
+}
+
+.display.venue .actions, .display.venue .twitter {
+    right: 0;
+}
+
+/* Twitter */
+
+.twitter {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0 30px 26px 0;
+    -webkit-transition: 0.3s right ease-in-out;
+    -moz-transition: 0.3s right ease-in-out;
+    transition: 0.3s right ease-in-out;
+}
+
+.display .twitter {
+    right: 50%;
+}
+
+/* No Dice */
+
+.rollin {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10%;
+    background: url(https://static-cashmusic.netdna-ssl.com/venues/img/dice.png) no-repeat;
+    background-size: 50%;
+    background-position: 50% 50%;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+}
+
+.display .results.dice .rollin {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    opacity: 1;
+    background-position: 50% 50%;
+    background-color: #dddddd;
+}
+
+.rollin h1 {
+    opacity: 0;
+    display: none;
+}
+
+.results.dice .rollin h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 40px;
+    opacity: 1;
+    display: block;
+}
+
+footer {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.venue footer {
+   /* width: 80%;*/
+}
+
+.loaded footer {
+    opacity: 1;
+}
+
+footer a {
+    display: inline-block;
+    color: #fff
+}
+
+body.loaded.venue {
+    height: 100%;
+    background: #eee url('https://static-cashmusic.netdna-ssl.com/venues/img/background.jpg');
+    background-width: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 40px;
+}
+
+.edit-form {
+    text-align: left;
+    padding: 10px 10px 30px 10px;
+}
+
+.edit-form label {
+    display: inline-block;
+    width: 30%;
+    margin: 0;
+    padding: 3px;
+    font-size: 12px;
+}
+
+.edit-form input {
+    width: 68%;
+    margin: 0 0 2px 0;
+    padding: 5px;
+    border: none;
+    font-family: 'Montserrat', 'helvetica', arial, sans-serif;
+    font-size: 12px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    background: #f5f5f5;
+}
+
+.edit-form select {
+    width: 68%;
+    margin: 0 0 2px 0;
+    padding: 5px;
+    display: inline-block;
+    font-family: 'Montserrat', 'helvetica', arial, sans-serif;
+    font-size: 12px;
+    -webkit-appearance: none;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border: none;
+}
+
+.edit-form input[type=submit] {
+    background: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: solid 1px #f5f5f5;
+    padding: 10px;
+    width: 98%;
+    display: block;
+    color: #fff;
+    margin: 20px 5px;
+}
+
+.edit-form input[type=submit]:hover {
+    background: #fff;
+    color: #222;
+    cursor: pointer;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+.edit-form input:active, .edit-form input:focus {
+    outline: none;
+    background: #fff;
+}
+
+#card .back h1 {
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+}
+
+#card .front .location p, #card .front .location a, #card .front .website p, #card .front .website a {
+    display: inline-block;
+}
+
+#card .front .location p {
+    font-size: 12px;
+}
+
+#card .front .website, #card .front .location {
+    margin: 1px 0 0 0;
+    padding: 10px;
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#card .front .location {
+    background: #efefef;
+    margin: 1px 0 0 0;
+    padding: 10px 0 5px 0;
+}
+
+#card .front .location a {
+    float: right;
+    margin: 9px 0;
+}
+
+.hidden {
+    display: none;
+}

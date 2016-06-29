@@ -1,0 +1,19 @@
+{
+    "name": "cashmusic/venues",
+    "description": "Open venues database",
+    "authors": [
+        {
+            "name": "CASH Music",
+            "email": "info@cashmusic.org"
+        }
+    ],
+    "require": {
+        "mustache/mustache": "^2.10",
+        "simpletest/simpletest": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cashmusic\\":"classes"
+        }
+    }
+}
