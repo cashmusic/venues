@@ -34,3 +34,6 @@ Thumbs.db
 *~
 *.swp
 *.swo
+
+# Vagrant #
+.vagrant
