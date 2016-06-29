@@ -1,0 +1,17 @@
+{
+"database": {
+    "driver": "mysql",
+    "host": "localhost",
+    "database": "cashvenues",
+    "username": "",
+    "password": ""
+  },
+  "debug": false,
+  "debug_database": {
+    "driver": "mysql",
+    "host": "localhost",
+    "database": "cashvenues",
+    "username": "",
+    "password": ""
+  }
+}
