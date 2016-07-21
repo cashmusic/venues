@@ -208,11 +208,17 @@ class Controller {
 
         if ($venue) {
             // output content to browser
-            if ($venue['creationdate']) {
-                $venue['creationdate'] = $this->prettifyDate($venue['creationdate']);
+
+            $creation = $venue['creationdate'];
+            $modification = $venue['modificationdate'];
+
+            if (!empty($creation)) {
+                $venue['creationdate'] = $this->prettifyDate($creation);
             }
-            if ($venue['modificationdate']) {
-                $venue['modificationdate'] = $this->prettifyDate($venue['creationdate']);
+
+
+            if (!empty($modification) && $creation != $modification) {
+                $venue['modificationdate'] = $this->prettifyDate($modification);
             }
 
             // encoding this onto the $venue array so we don't do it with AJAX on the template
@@ -235,7 +241,7 @@ class Controller {
      * @return bool|string
      */
     private function prettifyDate($date) {
-        return date("F j, Y", strtotime($date));
+        return date("F j, Y", $date);
     }
 
     /**
